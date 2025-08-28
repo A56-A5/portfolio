@@ -23,6 +23,7 @@
         overflow-y: auto;
         font-size: 18px;
         line-height: 1.3;
+        border-radius: 6px;
     }
     .line {
         display: flex;
@@ -76,10 +77,11 @@
     /* Banner Styling */
     .ascii-banner {
         font-size: 14px;
-        line-height: 1.5;
+        line-height: 1.3;
         color: #00ffcc;
         margin-bottom: 15px;
         white-space: pre;
+        overflow-x: auto;
     }
     .social-links {
         margin-bottom: 20px;
@@ -127,8 +129,21 @@
         color: #fff;
         border-radius: 5px;
         display: none;
+        z-index: 10;
     }
+
+    /* Responsive adjustments */
     @media (max-width: 768px) {
+        .terminal {
+            width: 100vw;
+            height: 100vh;
+            font-size: 14px;
+            padding: 10px;
+        }
+        .ascii-banner {
+            font-size: 11px;
+            line-height: 1.2;
+        }
         #mobile-input { display: block; }
     }
 </style>
@@ -146,7 +161,7 @@
     </div>
     <div class="social-links">
         <ul>
-            <li>Resume → <a class="cmd" href="#" target="_blank"> Download my resume...</a></li>
+            <li>Resume → <a class="cmd" href="resume.pdf" target="_blank"> resume.pdf</a></li>
             <li>GitHub → <a class="cmd" href="https://github.com/A56-A5" target="_blank"> github/A56-A5</a></li>
             <li>LinkedIn → <a class="cmd" href="https://www.linkedin.com/in/alvi-av" target="_blank"> linkedin/alvi_av</a></li>
             <li>Devfolio → <a class="cmd" href="https://devfolio.co/@a56" target="_blank"> devfolio.co/@a56</a></li>
@@ -202,14 +217,26 @@ Hi, I'm <span class="cmd">Alvi</span> 👋<br><br>
 🌍 <span class="desc">Exploring AI, DevOps, and cloud-native projects.</span><br>
 📫 <span class="desc">Always open to collaborations & hackathons!</span>
 `,
-    "theme light": "Theme switched to light.",
-    "theme dark": "Theme switched to dark.",
+    "cat projects": `
+<span class="cmd">Projects</span><br>
+📌 <span class="desc">Cross-device input & clipboard sharing app (Python + sockets).</span><br>
+📌 <span class="desc">YOLOv8 Object Detection Web Game (JS + Python backend).</span><br>
+📌 <span class="desc">Voice-assisted Legal Buddy app for tribal communities.</span><br>
+📌 <span class="desc">Creative 2D Game-like interactive portfolio (Unity/JS).</span>
+`,
+    "cat contact": `
+<span class="cmd">Contact</span><br>
+📧 <span class="desc">alvi@example.com</span><br>
+🔗 <a class="cmd" href="https://linkedin.com/in/alvi-av" target="_blank">LinkedIn</a><br>
+🐙 <a class="cmd" href="https://github.com/A56-A5" target="_blank">GitHub</a>
+`,
+    "cat resume": `<a class="cmd" href="resume.pdf" target="_blank">Opening resume.pdf...</a>`,
 };
 
 let buffer = "";
 const nextPromptDelay = 300;
 
-// Handle keyboard (desktop)
+// Desktop keyboard input
 document.addEventListener("keydown", function(e) {
     if (inputLine.classList.contains("hidden")) return;
 
@@ -228,7 +255,7 @@ document.addEventListener("keydown", function(e) {
     }
 });
 
-// Handle mobile input
+// Mobile input
 mobileInput.addEventListener("keydown", function(e) {
     if (e.key === "Enter") {
         handleCommand(mobileInput.value.trim());
