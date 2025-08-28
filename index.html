@@ -60,7 +60,7 @@
     }
     .cmd {
         font-weight: bold;
-        text-shadow: 0 0 2px #ffffffd5, 0 0 2px #dfdfdf; /* Glow effect */
+        text-shadow: 0 0 2px #ffffffd5, 0 0 2px #dfdfdf;
     }
     .category {
         font-weight: bold;
@@ -80,47 +80,57 @@
         color: #00ffcc;
         margin-bottom: 15px;
         white-space: pre;
-    }.social-links {
+    }
+    .social-links {
         margin-bottom: 20px;
         color: #fff;
         font-size: 16px;
         line-height: 1.5;
         margin-top: 1.6%;
     }
-
-    .social-links .name {
-        font-weight: bold;
-        font-size: 18px;
-        margin-bottom: 6px;
-    }
-
     .social-links ul {
         list-style: none;
         padding: 0;
         margin: 0;
     }
-
     .social-links li {
         margin: 4px 0;
     }
-
     .social-links a {
         color: #e7e7e7;
         text-decoration: none;
     }
-
     .social-links a:hover {
         text-decoration: underline;
-    }.Intro {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    flex-wrap: wrap;  /* So it adjusts on smaller screens */
-    gap: 20px;
-    margin-bottom: 15px;
+    }
+    .Intro {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin-bottom: 15px;
     }
 
-
+    /* Mobile input box */
+    #mobile-input {
+        position: fixed;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        padding: 10px;
+        font-family: monospace;
+        font-size: 16px;
+        background: #222;
+        border: 1px solid #555;
+        color: #fff;
+        border-radius: 5px;
+        display: none;
+    }
+    @media (max-width: 768px) {
+        #mobile-input { display: block; }
+    }
 </style>
 </head>
 <body>
@@ -154,11 +164,15 @@
     </div>
 </div>
 
+<!-- Mobile input field -->
+<input type="text" id="mobile-input" placeholder="Type command here...">
+
 <script>
 const inputArea = document.getElementById("input");
 const output = document.getElementById("output");
 const terminal = document.getElementById("terminal");
 const inputLine = document.getElementById("input-line");
+const mobileInput = document.getElementById("mobile-input");
 
 const helpText = `
 <span class="category">Core</span>
@@ -179,7 +193,15 @@ const helpText = `
 
 const commands = {
     help: helpText,
-    "cat about": "Hi, I'm Alvi! A passionate developer who loves building creative web experiences.",
+    "cat about": `
+<span class="cmd">About Me</span><br>
+Hi, I'm <span class="cmd">Alvi</span> 👋<br><br>
+💻 <span class="desc">Full-stack developer passionate about crafting creative web experiences.</span><br>
+🚀 <span class="desc">Skilled in JavaScript, Python, and cross-platform app development.</span><br>
+🎨 <span class="desc">Love blending design with functionality to build interactive UIs.</span><br>
+🌍 <span class="desc">Exploring AI, DevOps, and cloud-native projects.</span><br>
+📫 <span class="desc">Always open to collaborations & hackathons!</span>
+`,
     "theme light": "Theme switched to light.",
     "theme dark": "Theme switched to dark.",
 };
@@ -187,37 +209,14 @@ const commands = {
 let buffer = "";
 const nextPromptDelay = 300;
 
+// Handle keyboard (desktop)
 document.addEventListener("keydown", function(e) {
     if (inputLine.classList.contains("hidden")) return;
 
     if (e.key === "Enter") {
-        const cmd = buffer.trim();
-        const commandLine = document.createElement("div");
-        commandLine.innerHTML = `<span class="prompt">alvi@portfolio:~$</span> ${cmd}`;
-        output.appendChild(commandLine);
-        inputLine.classList.add("hidden");
-
-        if (cmd === "clear") {
-            output.innerHTML = "";
-            showPrompt();
-        } else if (cmd === "ls") {
-            typeOutput("about  projects  contact  resume", showPrompt);
-        } else if (cmd === "pwd") {
-            typeOutput("/home/alvi/portfolio", showPrompt);
-        } else if (cmd === "date") {
-            typeOutput(new Date().toString(), showPrompt);
-        } else if (commands[cmd]) {
-            const isHelp = cmd === "help";
-            typeOutput(commands[cmd], showPrompt, isHelp);
-        } else if (cmd !== "") {
-            typeOutput(`Command not found: ${cmd}`, showPrompt);
-        } else {
-            showPrompt();
-        }
-
+        handleCommand(buffer.trim());
         buffer = "";
         inputArea.textContent = "";
-        terminal.scrollTop = terminal.scrollHeight;
         e.preventDefault();
     } else if (e.key === "Backspace") {
         buffer = buffer.slice(0, -1);
@@ -228,6 +227,40 @@ document.addEventListener("keydown", function(e) {
         inputArea.textContent = buffer;
     }
 });
+
+// Handle mobile input
+mobileInput.addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+        handleCommand(mobileInput.value.trim());
+        mobileInput.value = "";
+    }
+});
+
+function handleCommand(cmd) {
+    const commandLine = document.createElement("div");
+    commandLine.innerHTML = `<span class="prompt">alvi@portfolio:~$</span> ${cmd}`;
+    output.appendChild(commandLine);
+    inputLine.classList.add("hidden");
+
+    if (cmd === "clear") {
+        output.innerHTML = "";
+        showPrompt();
+    } else if (cmd === "ls") {
+        typeOutput("about  projects  contact  resume", showPrompt);
+    } else if (cmd === "pwd") {
+        typeOutput("/home/alvi/portfolio", showPrompt);
+    } else if (cmd === "date") {
+        typeOutput(new Date().toString(), showPrompt);
+    } else if (commands[cmd]) {
+        const isHelp = cmd === "help";
+        typeOutput(commands[cmd], showPrompt, isHelp);
+    } else if (cmd !== "") {
+        typeOutput(`Command not found: ${cmd}`, showPrompt);
+    } else {
+        showPrompt();
+    }
+    terminal.scrollTop = terminal.scrollHeight;
+}
 
 function typeOutput(text, callback, isHelp = false) {
     const container = document.createElement("div");
