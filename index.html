@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio</title>
+<style>
+    body {
+        margin: 0;
+        background: #141414;
+        font-family: monospace;
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+    }
+    .terminal {
+        width: 95vw;
+        height: 95vh;
+        background: #141414;
+        padding: 15px;
+        overflow-y: auto;
+        font-size: 18px;
+        line-height: 1.3;
+    }
+    .line {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .prompt {
+        margin-right: 5px;
+        font-weight: bold;
+    }
+    .input-area {
+        display: inline-block;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+    .cursor {
+        display: inline-block;
+        width: 10px;
+        background: #fff;
+        animation: blink 1s infinite;
+        height: 1em;
+        vertical-align: text-bottom;
+    }
+    @keyframes blink {
+        0%, 50% { opacity: 1; }
+        50.01%, 100% { opacity: 0; }
+    }
+    .hidden { display: none; }
+
+    /* Help output */
+    .help-output {
+        line-height: 1.05;
+        font-size: 16px;
+        color: #fff;
+        margin-top: 8px;
+    }
+    .cmd {
+        font-weight: bold;
+        text-shadow: 0 0 2px #ffffffd5, 0 0 2px #dfdfdf; /* Glow effect */
+    }
+    .category {
+        font-weight: bold;
+        text-transform: uppercase;
+        display: block;
+        color:#aaa;
+        margin-top: 6px;
+    }
+    .desc {
+        color: #aaa;
+    }
+
+    /* Banner Styling */
+    .ascii-banner {
+        font-size: 14px;
+        line-height: 1.5;
+        color: #00ffcc;
+        margin-bottom: 15px;
+        white-space: pre;
+    }.social-links {
+        margin-bottom: 20px;
+        color: #fff;
+        font-size: 16px;
+        line-height: 1.5;
+        margin-top: 1.6%;
+    }
+
+    .social-links .name {
+        font-weight: bold;
+        font-size: 18px;
+        margin-bottom: 6px;
+    }
+
+    .social-links ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .social-links li {
+        margin: 4px 0;
+    }
+
+    .social-links a {
+        color: #e7e7e7;
+        text-decoration: none;
+    }
+
+    .social-links a:hover {
+        text-decoration: underline;
+    }.Intro {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;  /* So it adjusts on smaller screens */
+    gap: 20px;
+    margin-bottom: 15px;
+    }
+
+
+</style>
+</head>
+<body>
+<div class="terminal" id="terminal">
+    <div class="Intro"> 
+    <div class="ascii-banner">
+    _____  .____ ____   ____.___     _____    ____   ____
+  /  _   \ |    |\   \ /   /|   |   /  _   \   \   \ /   /
+ /  /_\   \|    | \   Y   / |   |  /  /_\   \   \   Y   / 
+/   ____   \    |__\     /  |   | /   ___    \   \     /  
+\_/     \  /_______ \___/   |___| \_/     \  /    \___/   
+         \/       \/                       \/             
+    </div>
+    <div class="social-links">
+        <ul>
+            <li>Resume → <a class="cmd" href="#" target="_blank"> Download my resume...</a></li>
+            <li>GitHub → <a class="cmd" href="https://github.com/A56-A5" target="_blank"> github/A56-A5</a></li>
+            <li>LinkedIn → <a class="cmd" href="https://www.linkedin.com/in/alvi-av" target="_blank"> linkedin/alvi_av</a></li>
+            <li>Devfolio → <a class="cmd" href="https://devfolio.co/@a56" target="_blank"> devfolio.co/@a56</a></li>
+        </ul>
+    </div>
+    </div>
+    <p style="margin: 10px 0; color: #aaa;">
+        Welcome to my portfolio! Type <span class="cmd">help</span> to view available commands.
+    </p>
+
+    <div id="output"></div>
+    <div class="line" id="input-line">
+        <span class="prompt">alvi@portfolio:~$</span>
+        <span class="input-area" id="input"></span><span class="cursor"></span>
+    </div>
+</div>
+
+<script>
+const inputArea = document.getElementById("input");
+const output = document.getElementById("output");
+const terminal = document.getElementById("terminal");
+const inputLine = document.getElementById("input-line");
+
+const helpText = `
+<span class="category">Core</span>
+  <span class="cmd">help</span>       <span class="desc">Show this help message</span><br>
+  <span class="cmd">ls</span>         <span class="desc">List available sections</span><br>
+  <span class="cmd">pwd</span>        <span class="desc">Show current directory</span><br>
+  <span class="cmd">clear</span>      <span class="desc">Clear terminal screen</span><br><br>
+<span class="category">Portfolio</span>
+  <span class="cmd">cat about</span>      <span class="desc">Open About Me section</span><br>
+  <span class="cmd">cat projects</span>   <span class="desc">Open Projects section</span><br>
+  <span class="cmd">cat contact</span>    <span class="desc">Open Contact section</span><br>
+  <span class="cmd">cat resume</span>     <span class="desc">View Resume (PDF)</span><br><br>
+<span class="category">Extras</span>
+  <span class="cmd">whoami</span>         <span class="desc">Show your name & role</span><br>
+  <span class="cmd">uname -a</span>       <span class="desc">Show system info</span><br>
+  <span class="cmd">date</span>           <span class="desc">Show current date/time</span><br>
+`;
+
+const commands = {
+    help: helpText,
+    "cat about": "Hi, I'm Alvi! A passionate developer who loves building creative web experiences.",
+    "theme light": "Theme switched to light.",
+    "theme dark": "Theme switched to dark.",
+};
+
+let buffer = "";
+const nextPromptDelay = 300;
+
+document.addEventListener("keydown", function(e) {
+    if (inputLine.classList.contains("hidden")) return;
+
+    if (e.key === "Enter") {
+        const cmd = buffer.trim();
+        const commandLine = document.createElement("div");
+        commandLine.innerHTML = `<span class="prompt">alvi@portfolio:~$</span> ${cmd}`;
+        output.appendChild(commandLine);
+        inputLine.classList.add("hidden");
+
+        if (cmd === "clear") {
+            output.innerHTML = "";
+            showPrompt();
+        } else if (cmd === "ls") {
+            typeOutput("about  projects  contact  resume", showPrompt);
+        } else if (cmd === "pwd") {
+            typeOutput("/home/alvi/portfolio", showPrompt);
+        } else if (cmd === "date") {
+            typeOutput(new Date().toString(), showPrompt);
+        } else if (commands[cmd]) {
+            const isHelp = cmd === "help";
+            typeOutput(commands[cmd], showPrompt, isHelp);
+        } else if (cmd !== "") {
+            typeOutput(`Command not found: ${cmd}`, showPrompt);
+        } else {
+            showPrompt();
+        }
+
+        buffer = "";
+        inputArea.textContent = "";
+        terminal.scrollTop = terminal.scrollHeight;
+        e.preventDefault();
+    } else if (e.key === "Backspace") {
+        buffer = buffer.slice(0, -1);
+        inputArea.textContent = buffer;
+        e.preventDefault();
+    } else if (e.key.length === 1) {
+        buffer += e.key;
+        inputArea.textContent = buffer;
+    }
+});
+
+function typeOutput(text, callback, isHelp = false) {
+    const container = document.createElement("div");
+    container.style.whiteSpace = "pre-wrap";
+    if (isHelp) container.classList.add("help-output");
+    output.appendChild(container);
+
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = text;
+
+    const nodes = Array.from(tempDiv.childNodes);
+    let nodeIndex = 0;
+
+    let speed;
+    if (text.length > 1000) speed = 0.05;
+    else if (text.length > 500) speed = 0.2;
+    else if (text.length > 200) speed = 0.8;
+    else speed = 3;
+
+    function typeNode() {
+        if (nodeIndex >= nodes.length) {
+            setTimeout(callback, nextPromptDelay);
+            return;
+        }
+
+        const node = nodes[nodeIndex];
+        if (node.nodeType === Node.TEXT_NODE) {
+            let chars = node.textContent;
+            let i = 0;
+            function typeChar() {
+                if (i < chars.length) {
+                    container.append(chars[i]);
+                    i++;
+                    terminal.scrollTop = terminal.scrollHeight;
+                    setTimeout(typeChar, speed);
+                } else {
+                    nodeIndex++;
+                    typeNode();
+                }
+            }
+            typeChar();
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+            const span = document.createElement(node.tagName.toLowerCase());
+            if (node.className) span.className = node.className;
+            container.appendChild(span);
+            let chars = node.textContent;
+            let i = 0;
+            function typeChar() {
+                if (i < chars.length) {
+                    span.append(chars[i]);
+                    i++;
+                    terminal.scrollTop = terminal.scrollHeight;
+                    setTimeout(typeChar, speed);
+                } else {
+                    nodeIndex++;
+                    typeNode();
+                }
+            }
+            typeChar();
+        } else {
+            nodeIndex++;
+            typeNode();
+        }
+    }
+    typeNode();
+}
+
+function showPrompt() {
+    inputLine.classList.remove("hidden");
+    terminal.scrollTop = terminal.scrollHeight;
+}
+</script>
+</body>
+</html>
