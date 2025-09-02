@@ -1,0 +1,159 @@
+/* === Terminal Dark Theme === */
+body {
+  margin: 0;
+  background: #141414;
+  font-family: monospace;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow-x: hidden; /* stop horizontal scroll */
+  overflow-y: hidden;
+}
+.terminal {
+  width: 95vw;
+  height: 95vh;
+  background: #141414;
+  padding: 15px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-size: 18px;
+  line-height: 1.3;
+}
+.line { display: flex; align-items: center; flex-wrap: wrap; }
+.prompt { margin-right: 5px; font-weight: bold; }
+.input-area {
+  background: transparent; border: none; outline: none;
+  color: #fff; font-family: monospace; font-size: 18px;
+  flex: 1; min-width: 50px;
+}
+.hidden { display: none; }
+.help-output { line-height: 1.05; font-size: 16px; color: #fff; margin-top: 8px; }
+.cmd { font-weight: bold; text-shadow: 0 0 2px #ffffffd5, 0 0 2px #dfdfdf; }
+.category { font-weight: bold; text-transform: uppercase; display: block; color:#aaa; margin-top: 6px; }
+.desc { color: #aaa; }
+
+/* ASCII banner */
+.ascii-banner {
+  color: #00ffcc;
+  margin-bottom: 15px;
+  font-size: 14px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+@media (max-width: 600px) { .ascii-banner { font-size: 9px; } }
+
+.social-links { margin-bottom: 20px; font-size: 16px; line-height: 1.5; margin-top: 1.6%; }
+.social-links ul { list-style: none; padding: 0; margin: 0; }
+.social-links li { margin: 4px 0; }
+.social-links a { color: #e7e7e7; text-decoration: none; }
+.social-links a:hover { text-decoration: underline; }
+.Intro { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px; margin-bottom: 15px; }
+
+/* === Retro Windows === */
+.window {
+  position: absolute;
+  top: 100px; left: 100px;
+  width: 400px; height: 280px;
+  background: #fdfaf3;
+  border: 2px solid #000;
+  display: flex; flex-direction: column;
+  box-shadow: 5px 5px 0px #000;
+  z-index: 100;
+}
+.window-header {
+  background: #e5dfd0;
+  padding: 6px 10px;
+  cursor: move;
+  display: flex; justify-content: space-between; align-items: center;
+  font-weight: bold;
+  border-bottom: 2px solid #000;
+  color: #000;
+}
+.close-btn {
+  background: #fff;
+  border: 2px solid #000;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  width: 22px; height: 22px;
+  line-height: 18px;
+  text-align: center;
+  padding: 0;
+}
+.close-btn:hover { background: #000; color: #fff; }
+.window-body {
+  flex: 1;
+  padding: 12px;
+  font-size: 14px;
+  overflow-y: auto;
+  color: #111;
+}
+
+/* Resize handles */
+.resize-handle { position: absolute; background: transparent; z-index: 5; }
+.resize-handle.n,.resize-handle.s { height: 6px; width: 100%; cursor: ns-resize; left:0; }
+.resize-handle.e,.resize-handle.w { width: 6px; height: 100%; cursor: ew-resize; top:0; }
+.resize-handle.n{top:-3px;} .resize-handle.s{bottom:-3px;}
+.resize-handle.e{right:-3px;} .resize-handle.w{left:-3px;}
+.resize-handle.nw,.resize-handle.ne,.resize-handle.sw,.resize-handle.se{
+  width:10px;height:10px;background:transparent;z-index:6;
+}
+.resize-handle.nw{top:-5px;left:-5px;cursor:nwse-resize;}
+.resize-handle.ne{top:-5px;right:-5px;cursor:nesw-resize;}
+.resize-handle.sw{bottom:-5px;left:-5px;cursor:nesw-resize;}
+.resize-handle.se{bottom:-5px;right:-5px;cursor:nwse-resize;}
+/* Retro File Explorer Grid */
+.file-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 20px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.file {
+  display: inline-block;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.file:hover {
+  background: rgba(255,255,255,0.1);
+}
+.input-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.input-area {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font: inherit;
+  outline: none;
+  caret-color: transparent; /* hide native caret */
+  min-width: 2px;
+}
+
+.cursor {
+  position: absolute;
+  margin-top: 3px;
+  right: 0;
+  width: 7px;
+  height: 1em;
+  background: #fff;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
