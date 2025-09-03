@@ -3,6 +3,30 @@
 
 const inputArea = document.getElementById("input");
 const cursor = document.querySelector(".cursor");
+const output = document.getElementById("output");
+const terminal = document.getElementById("terminal");
+const inputLine = document.getElementById("input-line");
+const asciiBanner = document.querySelector(".ascii-banner");
+const welcomeText = document.querySelector(".welcome-text");
+
+const commands = [
+  "help",
+  "ls",
+  "pwd",
+  "cd",
+  "cat",
+  "clear",
+  "portfolio",
+  "about",
+  "projects",
+  "achievements",
+  "contact",
+  "resume",
+  "exit",
+  "logout",
+  "whoami",
+  "open"
+];
 
 // Keep the cursor synced to input text (uses the existing cursor element/CSS)
 function updateCursor() {
@@ -34,10 +58,6 @@ inputArea.addEventListener("focus", updateCursor);
 window.addEventListener("resize", updateCursor);
 updateCursor(); // initial
 
-const output = document.getElementById("output");
-const terminal = document.getElementById("terminal");
-const inputLine = document.getElementById("input-line");
-
 const helpText = `
 <span class="category">Core</span>
   <span class="cmd">help</span>       <span class="desc">Show this help message</span><br>
@@ -45,13 +65,19 @@ const helpText = `
   <span class="cmd">pwd</span>        <span class="desc">Show current directory</span><br>
   <span class="cmd">cd &lt;dir&gt;</span> <span class="desc">Change directory (use .. to go up)</span><br>
   <span class="cmd">cat &lt;file&gt;</span> <span class="desc">Open a file / window</span><br>
+  <span class="cmd">open &lt;file&gt;</span> <span class="desc">Alias for 'cat'</span><br>
   <span class="cmd">clear</span>      <span class="desc">Clear terminal screen</span><br><br>
+<span class="category">Info</span>
+  <span class="cmd">whoami</span>     <span class="desc">Show user information</span><br>
+  <span class="cmd">exit</span>       <span class="desc">Reset the terminal</span><br>
+  <span class="cmd">logout</span>     <span class="desc">Alias for 'exit'</span><br><br>
 <span class="category">Portfolio</span>
   <span class="cmd">cat about</span>          <span class="desc">Open About</span><br>
   <span class="cmd">cd projects</span>        <span class="desc">Enter projects folder</span><br>
   <span class="cmd">ls</span> (inside projects) <span class="desc">List projects</span><br>
   <span class="cmd">cat &lt;proj name or index&gt;</span> <span class="desc">Open project (when inside projects)</span><br>
   <span class="cmd">cat portfolio</span>      <span class="desc">Open portfolio file explorer</span><br>
+  <span class="cmd">cat resume</span>         <span class="desc">Download my resume</span>
 `;
 
 // Virtual cwd: root is "portfolio"
@@ -67,7 +93,7 @@ function showPrompt() {
 
 // Typing effect (HTML-aware)
 // Types the *text content* inside parsed HTML nodes so tags render properly
-function typeOutput(html, callback, isHelp = false) {
+function typeOutput(html, callback, isHelp = false, speed = 5) {
   const container = document.createElement("div");
   container.style.whiteSpace = "pre-wrap";
   if (isHelp) container.classList.add("help-output");
@@ -77,7 +103,7 @@ function typeOutput(html, callback, isHelp = false) {
   tempDiv.innerHTML = html;
   const nodes = Array.from(tempDiv.childNodes);
   let nodeIndex = 0;
-  const baseSpeed = 12; // adjust overall speed
+  const baseSpeed = speed;
 
   function typeNode() {
     if (nodeIndex >= nodes.length) {
@@ -136,21 +162,10 @@ function typeOutput(html, callback, isHelp = false) {
 
 /* ---------------------------
    Filesystem helpers (uses portfolioContent from content.js)
-   Structure in content.js:
-     - portfolioContent.about (string HTML)
-     - portfolioContent.projects (array of {name, content})
-     - portfolioContent.achievements (string HTML)
-     - portfolioContent.contact (string HTML)
-   Behavior:
-     - Root (currentPath = ["portfolio"]) contains: about, projects/, achievements, contact
-     - cd projects -> enter projects folder (currentPath = ["portfolio","projects"])
-     - ls at root lists the 4 entries; ls inside projects lists project names
-     - cat about (when at root) opens About window
-     - cat <project name or index> (when inside projects) opens that project
 --------------------------- */
 
 function listRoot() {
-  return ["about", "projects", "achievements", "contact"];
+  return ["about", "projects", "achievements", "contact", "resume"];
 }
 
 function listProjects() {
@@ -181,6 +196,24 @@ function handleCommandRaw(cmdRaw) {
     rest = cmd.slice(firstSpace + 1).trim();
   }
 
+  // --- New Commands ---
+  if (base === "whoami") {
+    typeOutput(portfolioContent.whoami, showPrompt);
+    return;
+  }
+  
+  if (base === "exit" || base === "logout") {
+    output.innerHTML = "";
+    currentPath = ["portfolio"];
+    typeOutput("Connection closed. <br> Type anything to reconnect...", () => {
+      inputLine.classList.add("hidden");
+      inputArea.value = "";
+    });
+    return;
+  }
+
+  // --- End New Commands ---
+
   if (base === "help") {
     typeOutput(helpText, showPrompt, true);
     return;
@@ -199,7 +232,6 @@ function handleCommandRaw(cmdRaw) {
   }
 
   if (base === "ls") {
-    // allow ls with argument: ls projects
     if (rest) {
       if (rest === "projects") {
         typeOutput(listProjects().join("  "), showPrompt);
@@ -209,7 +241,6 @@ function handleCommandRaw(cmdRaw) {
       return;
     }
 
-    // ls with no arg: depends on cwd
     if (isAtRoot()) {
       typeOutput(listRoot().join("  "), showPrompt);
     } else if (isInProjectsFolder()) {
@@ -228,37 +259,26 @@ function handleCommandRaw(cmdRaw) {
       return;
     }
 
-    // cd from root into top-level folders
     if (isAtRoot()) {
-      if (["about","projects","achievements","contact"].includes(rest)) {
-        // only 'projects' is a directory; others are files, but allow cd into projects only
-        if (rest === "projects") {
-          currentPath.push("projects");
-          showPrompt();
-          return;
-        } else {
-          typeOutput(`cd: not a directory: ${rest}`, showPrompt);
-          return;
-        }
+      if (rest === "projects") {
+        currentPath.push("projects");
+        showPrompt();
+        return;
       } else {
-        typeOutput(`cd: no such directory: ${rest}`, showPrompt);
+        typeOutput(`cd: not a directory: ${rest}`, showPrompt);
         return;
       }
     }
 
-    // cd inside projects to specific project name
     if (isInProjectsFolder()) {
-      // attempt to match by exact name (case-sensitive) or by index (1-based)
       const projects = portfolioContent.projects;
-      // check numeric index
       const idx = parseInt(rest, 10);
       if (!isNaN(idx) && idx >= 1 && idx <= projects.length) {
         currentPath.push(projects[idx - 1].name);
         showPrompt();
         return;
       }
-      // match by name
-      const found = projects.find(p => p.name === rest);
+      const found = projects.find(p => p.name.toLowerCase() === rest.toLowerCase());
       if (found) {
         currentPath.push(found.name);
         showPrompt();
@@ -268,25 +288,30 @@ function handleCommandRaw(cmdRaw) {
       return;
     }
 
-    // deeper levels not supported
     typeOutput(`cd: no such directory: ${rest}`, showPrompt);
     return;
   }
 
-  if (base === "cat") {
+  // Make 'open' work like 'cat'
+  if (base === "cat" || base === "open") {
     if (!rest) {
       typeOutput("cat: missing file name", showPrompt);
       return;
     }
-
-    // Support: cat portfolio (open explorer)
+    
+    // Special case for resume
+    if (rest === "resume") {
+      window.open("/Alvi_AV_Resume.pdf", "_blank");
+      typeOutput("Opening resume in a new tab...", showPrompt);
+      return;
+    }
+    
     if (rest === "portfolio") {
       openPortfolioExplorer();
       showPrompt();
       return;
     }
 
-    // At root: allow cat about / achievements / contact or cat projects to open projects explorer
     if (isAtRoot()) {
       if (rest === "about") {
         createWindow("About", portfolioContent.about);
@@ -312,10 +337,8 @@ function handleCommandRaw(cmdRaw) {
       return;
     }
 
-    // Inside projects folder: allow cat <project name> or cat <index>
     if (isInProjectsFolder()) {
       const projects = portfolioContent.projects;
-      // numeric index support
       const idx = parseInt(rest, 10);
       if (!isNaN(idx) && idx >= 1 && idx <= projects.length) {
         const proj = projects[idx - 1];
@@ -323,8 +346,7 @@ function handleCommandRaw(cmdRaw) {
         showPrompt();
         return;
       }
-      // exact name match
-      const found = projects.find(p => p.name === rest);
+      const found = projects.find(p => p.name.toLowerCase() === rest.toLowerCase());
       if (found) {
         createWindow(found.name, found.content);
         showPrompt();
@@ -334,19 +356,16 @@ function handleCommandRaw(cmdRaw) {
       return;
     }
 
-    // If inside a project (currentPath length >=3), allow cat nothing (no nested files)
     typeOutput(`cat: ${rest}: No such file`, showPrompt);
     return;
   }
 
-  // Unknown command
   typeOutput(`Command not found: ${cmd}`, showPrompt);
   return;
 }
 
 /* -------------------------
    File Explorer UI helpers (openPortfolioExplorer / openProjectsExplorer)
-   These produce file-grid HTML and rely on createWindow() from windows.js.
 ------------------------- */
 
 function openPortfolioExplorer() {
@@ -356,13 +375,16 @@ function openPortfolioExplorer() {
         <img src="icons/about.png" class="file-icon" alt="about icon"><br>about
       </div>
       <div class="file" role="button" onclick="openProjectsExplorer()">
-        <img src="icons/folder.png" class="file-icon" alt="projects folder"><br>projects
+        <img src="icons/projects.png" class="file-icon" alt="projects folder"><br>projects
       </div>
       <div class="file" role="button" onclick="createWindow('Achievements', portfolioContent.achievements)">
         <img src="icons/achievements.png" class="file-icon" alt="achievements"><br>achievements
       </div>
       <div class="file" role="button" onclick="createWindow('Contact', portfolioContent.contact)">
         <img src="icons/contact.png" class="file-icon" alt="contact"><br>contact
+      </div>
+      <div class="file" role="button" onclick="openResumeFile()">
+        <img src="icons/file.png" class="file-icon" alt="resume"><br>resume
       </div>
     </div>
   `;
@@ -391,23 +413,58 @@ function openProject(index) {
   createWindow(proj.name, proj.content);
 }
 
-// expose openProject to global scope for onclick strings (should already be global)
+// open resume file
+function openResumeFile() {
+  window.open("/Alvi_AV_Resume.pdf", "_blank");
+}
+
+// expose functions to global scope for onclick strings
 window.openProject = openProject;
 window.openProjectsExplorer = openProjectsExplorer;
 window.openPortfolioExplorer = openPortfolioExplorer;
+window.openResumeFile = openResumeFile;
+
 
 /* -------------------------
    Input handling
-   - uses Enter to submit inputArea.value
-   - keeps the fake cursor synced
 ------------------------- */
-
 document.addEventListener("keydown", function(e) {
   if (inputLine.classList.contains("hidden")) return;
+  
+  // Handle tab for autocomplete
+  if (e.key === "Tab") {
+    e.preventDefault();
+    const currentInput = inputArea.value.trim().toLowerCase();
+    
+    // Get all possible completions based on the current directory
+    let possibleCompletions = [];
+    if (isAtRoot()) {
+      possibleCompletions = commands.filter(cmd => cmd.startsWith(currentInput) || listRoot().find(f => f.startsWith(currentInput)));
+      if (currentInput.length > 0) {
+        possibleCompletions = possibleCompletions.concat(listRoot().filter(f => f.startsWith(currentInput) && !commands.includes(f)));
+      }
+    } else if (isInProjectsFolder()) {
+      possibleCompletions = listProjects().filter(p => p.toLowerCase().startsWith(currentInput));
+    }
+    
+    const uniqueCompletions = [...new Set(possibleCompletions)].sort();
+
+    if (uniqueCompletions.length === 1) {
+      inputArea.value = uniqueCompletions[0];
+    } else if (uniqueCompletions.length > 1) {
+      typeOutput(uniqueCompletions.join("  "), () => {
+        const commandLine = document.createElement("div");
+        commandLine.innerHTML = `<span class="prompt">alvi@portfolio:/${currentPath.length>1?currentPath.slice(1).join('/')+ '/':''}</span> ${escapeHtml(inputArea.value)}`;
+        output.appendChild(commandLine);
+        showPrompt();
+      });
+      return;
+    }
+    updateCursor();
+  }
 
   if (e.key === "Enter") {
     const raw = inputArea.value.trim();
-    // echo the command
     const commandLine = document.createElement("div");
     commandLine.innerHTML = `<span class="prompt">alvi@portfolio:/${currentPath.length>1?currentPath.slice(1).join('/')+ '/':''}</span> ${escapeHtml(raw)}`;
     output.appendChild(commandLine);
@@ -420,7 +477,6 @@ document.addEventListener("keydown", function(e) {
     terminal.scrollTop = terminal.scrollHeight;
     e.preventDefault();
   } else {
-    // normal typing: just update cursor position
     setTimeout(updateCursor, 0);
   }
 });
@@ -432,4 +488,21 @@ function escapeHtml(str) {
 }
 
 // ensure prompt visible on load
-showPrompt();
+window.onload = function() {
+    // Type out the ASCII banner first
+    const bannerContent = asciiBanner.textContent;
+    asciiBanner.textContent = ''; // clear it
+    
+    let i = 0;
+    function typeBanner() {
+        if (i < bannerContent.length) {
+            asciiBanner.textContent += bannerContent.charAt(i);
+            i++;
+            setTimeout(typeBanner, 3); // speed for banner
+        } else {
+            // Then type the welcome text and show the prompt
+            typeOutput("Welcome to my portfolio! Type <span class='cmd'>help</span> to view available commands.", showPrompt, false, 5); // speed for welcome text
+        }
+    }
+    typeBanner();
+};

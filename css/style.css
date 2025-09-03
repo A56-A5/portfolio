@@ -7,19 +7,31 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  overflow-x: hidden; /* stop horizontal scroll */
+  min-height: 100vh;
+  overflow-x: hidden;
   overflow-y: hidden;
+  padding: 10px;
 }
 .terminal {
   width: 95vw;
-  height: 95vh;
+  max-width: 900px; /* Limit max width on large screens */
+  min-height: 95vh;
+  max-height: 95vh;
   background: #141414;
   padding: 15px;
   overflow-y: auto;
   overflow-x: hidden;
   font-size: 18px;
   line-height: 1.3;
+  box-sizing: border-box; /* Include padding in the element's total width and height */
+}
+/* Hide scrollbar for a cleaner look */
+.terminal::-webkit-scrollbar {
+  display: none;
+}
+.terminal {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 .line { display: flex; align-items: center; flex-wrap: wrap; }
 .prompt { margin-right: 5px; font-weight: bold; }
@@ -63,6 +75,11 @@ body {
   box-shadow: 5px 5px 0px #000;
   z-index: 100;
 }
+@media (max-width: 768px) {
+  .window {
+  }
+}
+
 .window-header {
   background: #e5dfd0;
   padding: 6px 10px;
@@ -71,6 +88,7 @@ body {
   font-weight: bold;
   border-bottom: 2px solid #000;
   color: #000;
+  touch-action: none; /* This is the key change */
 }
 .close-btn {
   background: #fff;
@@ -90,6 +108,14 @@ body {
   font-size: 14px;
   overflow-y: auto;
   color: #111;
+}
+/* Hide window body scrollbar */
+.window-body::-webkit-scrollbar {
+  display: none;
+}
+.window-body {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 /* Resize handles */
@@ -113,7 +139,11 @@ body {
   text-align: center;
   margin-top: 10px;
 }
-
+@media (max-width: 480px) {
+  .file-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 .file {
   display: inline-block;
   padding: 10px;
@@ -122,6 +152,9 @@ body {
   user-select: none;
   font-size: 14px;
   transition: background 0.2s;
+}.file-icon {
+  width: 40px;
+  height: 40px;
 }
 
 .file:hover {
