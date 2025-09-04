@@ -14,6 +14,8 @@ export default function Home() {
   const cursorRef = useRef(null);
   const [cursorPos, setCursorPos] = useState({ left: 0, top: 0 });
   const [showInput, setShowInput] = useState(false);
+  const [history, setHistory] = useState([]);
+  const [historyIndex, setHistoryIndex] = useState(null);
 
   useEffect(() => {
     fetch("/api/content").then(r => r.json()).then(setContent);
@@ -237,8 +239,20 @@ export default function Home() {
     const listRoot = () => ["about", "projects/", "achievements", "other/", "contact", "resume"];
     const listProjects = () => content.portfolioContent.projects.map(p => p.name);
     const listOther = () => (content.portfolioContent.otherLinks||[]).map(l => l.name);
+    const normalize = (s) => (s || "").toLowerCase();
+    const toSpace = (s) => (s || "").replace(/_/g, " ");
 
     if (base === "whoami") { typeHtml(content.portfolioContent.whoami, false, 3); return; }
+    if (base === "duck") {
+      const id = Math.random().toString(36).slice(2);
+      const body = (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <img src="/icons/duck.gif" alt="duck" style={{ maxWidth: '100%', height: 'auto' }} />
+        </div>
+      );
+      setWindows(prev => [...prev, { id, title: "Duck", body, zIndex: Date.now() }]);
+      return;
+    }
     if (base === "exit" || base === "logout") {
       setLines([]);
       setCwd(["portfolio"]);
@@ -246,6 +260,15 @@ export default function Home() {
       return;
     }
     if (base === "help") { typeHtml(content.helpHtml, true, 3); return; }
+    if (base === "echo") { typeText(rest, "text", 3); return; }
+    if (base === "sudo") { typeText("sudo: permission denied. are you even root?", "text", 3); return; }
+    if (base === "relationship") { typeText("relationship: not found (404: still loading...)", "text", 3); return; }
+    if (base === "mkdir" || base === "touch") { typeText(`${base}: invalid access in this filesystem`, "text", 3); return; }
+    if (base === "history") {
+      if (history.length === 0) { typeText("history: no commands yet", "text", 3); return; }
+      setLines(prev => [...prev, ...history.map((h, i) => ({ type: "text", text: `${i+1}  ${h}` }))]);
+      return;
+    }
     if (base === "pwd") { typeText("/" + cwd.join("/"), "text", 3); return; }
          if (base === "clear") { 
        setLines([]); 
@@ -263,7 +286,7 @@ export default function Home() {
          }, 100);
          setTimeout(() => {
            typeHtml("Welcome to my portfolio! Type <span style='font-weight: bold; color: #fff; text-shadow: 0 0 1px #ffffff, 0 0 4px #ffffff; padding: 0px; margin: 0px;'>help</span> to view available commands.", true, 3);
-         }, 3000);
+         }, 5000);
          setTimeout(() => {
            setShowInput(true);
            inputRef.current && inputRef.current.focus();
@@ -273,14 +296,14 @@ export default function Home() {
      }
     if (base === "ls") {
       if (rest) {
-        if (rest === "projects" || rest === "projects/") typeText(listProjects().join("  "), "text", 3);
-        else if (rest === "other" || rest === "other/") typeText(listOther().join("  "), "text", 3);
+        if (rest === "projects" || rest === "projects/") typeText(listProjects().map(n=>n.replace(/\s+/g,"_")).join("  "), "text", 3);
+        else if (rest === "other" || rest === "other/") typeText(listOther().map(n=>n.replace(/\s+/g,"_")).join("  "), "text", 3);
         else typeText(`ls: cannot access '${rest}': No such file or directory`, "text", 3);
         return;
       }
       if (isAtRoot()) typeText(listRoot().join("  "), "text", 3);
-      else if (isInProjects()) typeText(listProjects().join("  "), "text", 3);
-      else if (isInOther()) typeText(listOther().join("  "), "text", 3);
+      else if (isInProjects()) typeText(listProjects().map(n=>n.replace(/\s+/g,"_")).join("  "), "text", 3);
+      else if (isInOther()) typeText(listOther().map(n=>n.replace(/\s+/g,"_")).join("  "), "text", 3);
       else typeText("ls: not a directory", "text", 3);
       return;
     }
@@ -297,7 +320,8 @@ export default function Home() {
         const projects = content.portfolioContent.projects;
         const idx = parseInt(rest, 10);
         if (!isNaN(idx) && idx >= 1 && idx <= projects.length) { setCwd(prev => [...prev, projects[idx - 1].name]); return; }
-        const found = projects.find(p => p.name.toLowerCase() === rest.toLowerCase());
+        const restAlt = toSpace(rest);
+        const found = projects.find(p => normalize(p.name) === normalize(rest) || normalize(p.name) === normalize(restAlt));
         if (found) { setCwd(prev => [...prev, found.name]); return; }
         typeText(`cd: no such directory: ${rest}`, "text", 3);
         return;
@@ -306,7 +330,8 @@ export default function Home() {
         const items = content.portfolioContent.otherLinks||[];
         const idx = parseInt(rest, 10);
         if (!isNaN(idx) && idx >= 1 && idx <= items.length) { window.open(items[idx-1].href, "_blank"); typeText(`Opening ${items[idx-1].label}...`, "text", 3); return; }
-        const found = items.find(x => x.name.toLowerCase() === rest.toLowerCase());
+        const restAlt = toSpace(rest);
+        const found = items.find(x => normalize(x.name) === normalize(rest) || normalize(x.name) === normalize(restAlt));
         if (found) { window.open(found.href, "_blank"); typeText(`Opening ${found.label}...`, "text", 3); return; }
         typeText(`cd: no such directory: ${rest}`, "text", 3);
         return;
@@ -330,7 +355,8 @@ export default function Home() {
         const projects = content.portfolioContent.projects;
         const idx = parseInt(rest, 10);
         if (!isNaN(idx) && idx >= 1 && idx <= projects.length) { createWindow(projects[idx - 1].name, projects[idx - 1].content); return; }
-        const found = projects.find(p => p.name.toLowerCase() === rest.toLowerCase());
+        const restAlt = toSpace(rest);
+        const found = projects.find(p => normalize(p.name) === normalize(rest) || normalize(p.name) === normalize(restAlt));
         if (found) { createWindow(found.name, found.content); return; }
         typeText(`cat: ${rest}: No such file`, "text", 3); return;
       }
@@ -338,7 +364,8 @@ export default function Home() {
         const items = content.portfolioContent.otherLinks||[];
         const idx = parseInt(rest, 10);
         if (!isNaN(idx) && idx >= 1 && idx <= items.length) { window.open(items[idx-1].href, "_blank"); typeText(`Opening ${items[idx-1].label}...`, "text", 3); return; }
-        const found = items.find(x => x.name.toLowerCase() === rest.toLowerCase());
+        const restAlt = toSpace(rest);
+        const found = items.find(x => normalize(x.name) === normalize(rest) || normalize(x.name) === normalize(restAlt));
         if (found) { window.open(found.href, "_blank"); typeText(`Opening ${found.label}...`, "text", 3); return; }
         typeText(`cat: ${rest}: No such file`, "text", 3); return;
       }
@@ -354,24 +381,83 @@ export default function Home() {
       const sub = cwd.length>1?cwd.slice(1).join('/') + '/':'';
       setLines(prev => [...prev, { type: "line", prompt: `alvi@portfolio:/${sub}`, text: toRun }]);
       setInputValue("");
+      // update history
+      if (toRun.trim().length > 0) {
+        setHistory(prev => [...prev, toRun]);
+      }
+      setHistoryIndex(null);
       handleCommand(toRun);
+    }
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (history.length === 0) return;
+      setHistoryIndex(idx => {
+        const nextIdx = idx === null ? history.length - 1 : Math.max(0, idx - 1);
+        setInputValue(history[nextIdx] || "");
+        return nextIdx;
+      });
+    }
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (history.length === 0) return;
+      setHistoryIndex(idx => {
+        if (idx === null) return null;
+        const atLast = idx >= history.length - 1;
+        if (atLast) {
+          setInputValue("");
+          return null;
+        }
+        const nextIdx = idx + 1;
+        setInputValue(history[nextIdx] || "");
+        return nextIdx;
+      });
     }
     if (e.key === "Tab") {
       e.preventDefault();
-      const current = inputValue.trim().toLowerCase();
-      let options = [];
-      const commands = ["help","ls","pwd","cd","cat","clear","portfolio","about","projects","achievements","other","contact","resume","exit","logout","whoami","open"];
-      const listRoot = () => ["about","projects","achievements","other","contact","resume"];
+      const full = inputValue;
+      const trimmedStart = full.replace(/^\s+/, "");
+      const tokens = trimmedStart.length ? trimmedStart.split(/\s+/) : [];
+      const lastSpace = full.lastIndexOf(" ");
+      const currentToken = (lastSpace === -1 ? full : full.slice(lastSpace + 1)).toLowerCase();
+      const head = lastSpace === -1 ? "" : full.slice(0, lastSpace + 1);
+
+      const commands = [
+        "help","ls","pwd","cd","cat","clear","portfolio","about","projects","achievements","other","contact","resume","exit","logout","whoami","open","history","echo","sudo","relationship","mkdir","touch","duck"
+      ];
+      const listRoot = () => ["about","projects","achievements","other","contact","resume"]; // pseudo FS entries
       const listProjects = () => (content?.portfolioContent?.projects||[]).map(p => p.name);
-      if (cwd.length === 1) {
-        options = commands.filter(c => c.startsWith(current));
-        if (current.length>0) options = [...new Set([...options, ...listRoot().filter(f => f.startsWith(current))])];
-      } else if (cwd.length === 2 && cwd[1] === "projects") {
-        options = listProjects().filter(p => p.toLowerCase().startsWith(current));
+      const listOther = () => (content?.portfolioContent?.otherLinks||[]).map(x => x.name);
+
+      const toCandidates = (arr) => arr.map(x => ({ raw: x, norm: x.toLowerCase().replace(/\s+/g, "_") }));
+      const completeFrom = (candidates) => {
+        const cands = toCandidates(candidates);
+        const matches = cands.filter(c => c.norm.startsWith(currentToken.replace(/\s+/g, "_"))).sort((a,b)=>a.raw.localeCompare(b.raw));
+        if (matches.length === 0) return;
+        const picked = matches[0].raw;
+        setInputValue(head + picked);
+      };
+
+      if (tokens.length <= 1) {
+        let pool = [...commands];
+        if (cwd.length === 1) pool = [...new Set([...pool, ...listRoot(), ...listOther()])];
+        completeFrom(pool);
+        return;
       }
-      options = [...new Set(options)].sort();
-      if (options.length === 1) setInputValue(options[0]);
-      else if (options.length > 1) typeText(options.join("  "), "text", 3);
+
+      const baseToken = tokens[0].toLowerCase();
+      if (baseToken === "cd") {
+        if (cwd.length === 1) return completeFrom(["projects","other"]);
+        if (cwd.length === 2 && cwd[1] === "projects") return completeFrom(listProjects());
+        if (cwd.length === 2 && cwd[1] === "other") return completeFrom(listOther());
+        return;
+      }
+      if (baseToken === "cat" || baseToken === "open") {
+        if (cwd.length === 1) return completeFrom([...listRoot().filter(x => !x.endsWith("/")), ...listOther()]);
+        if (cwd.length === 2 && cwd[1] === "projects") return completeFrom(listProjects());
+        if (cwd.length === 2 && cwd[1] === "other") return completeFrom(listOther());
+        return;
+      }
+      completeFrom(commands);
     }
   }
 
@@ -436,7 +522,7 @@ export default function Home() {
       </div>
       {showInput && (
         <div className="line" id="input-line">
-          <span className="prompt">alvi@portfolio:/$</span>
+          <span className="prompt">{`alvi@portfolio:/${cwd.length>1?cwd.slice(1).join('/') + '/':''}$`}</span>
           <div className="input-wrapper">
             <input
               ref={inputRef}
@@ -445,6 +531,9 @@ export default function Home() {
               value={inputValue}
               onChange={e => setInputValue(e.target.value)}
               onKeyDown={onKeyDown}
+              autoComplete="off"
+              spellCheck={false}
+              aria-autocomplete="none"
               autoFocus
             />
             <span ref={cursorRef} className="cursor" style={{ left: `${cursorPos.left}px`, top: `${cursorPos.top}px`, height: cursorPos.height ? `${cursorPos.height}px` : undefined }}></span>

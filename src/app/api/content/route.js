@@ -102,6 +102,7 @@ export async function GET() {
     helpHtml: `
 <span class="category">CORE</span>
 <span class="cmd">help</span>       <span class="desc">Show this help message</span><br>
+<span class="cmd">cat portfolio</span>      <span class="desc">Open portfolio UI</span><br>
 <span class="cmd">ls</span>         <span class="desc">List files/folders</span><br>
 <span class="cmd">pwd</span>        <span class="desc">Show current directory</span><br>
 <span class="cmd">cd [dir]</span>   <span class="desc">Change directory</span><br>
