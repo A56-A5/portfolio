@@ -24,6 +24,7 @@ body {
   font-size: 18px;
   line-height: 1.3;
   box-sizing: border-box; /* Include padding in the element's total width and height */
+  -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
 }
 /* Hide scrollbar for a cleaner look */
 .terminal::-webkit-scrollbar {
@@ -32,6 +33,13 @@ body {
 .terminal {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+}
+
+@media (max-width: 768px) {
+  body { overflow-y: auto; }
+  /* Reserve space for sticky input and make it sticky only on mobile */
+  .terminal #output { padding-bottom: 56px; }
+  #input-line { position: sticky; bottom: 0; background: #141414; padding-top: 6px; }
 }
 .line { display: flex; align-items: center; flex-wrap: wrap; }
 .prompt { margin-right: 5px; font-weight: bold; }
@@ -207,7 +215,6 @@ body {
 
 .cursor {
   position: absolute;
-  margin-top: 3px;
   width: 7px;
   height: 1em;
   background: #fff;

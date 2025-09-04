@@ -399,20 +399,30 @@ export default function Home() {
     
     const width = measurer.offsetWidth;
     const inputRect = input.getBoundingClientRect();
-    const inputLine = input.closest('.line');
-    const lineRect = inputLine.getBoundingClientRect();
-    
-    // Position cursor relative to the input line container
+    const wrapper = input.closest('.input-wrapper');
+    const wrapperRect = wrapper ? wrapper.getBoundingClientRect() : { top: 0 };
     const left = width;
-    const top = 0;
-    
-    setCursorPos({ left, top });
+    // Align cursor vertically with the input element
+    const top = inputRect.top - wrapperRect.top;
+    const height = inputRect.height;
+    setCursorPos({ left, top, height });
     measurer.remove();
   }, [inputValue]);
 
+  // Auto-scroll output to bottom on new content (mobile only) and tap-to-focus (mobile only)
+  useEffect(() => {
+    const isMobile = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+    if (!isMobile) return;
+    const out = document.getElementById("output");
+    if (out) out.scrollTop = out.scrollHeight;
+  }, [lines, showInput]);
+
   return (
     <div className="terminal" id="terminal">
-      <div id="output">
+      <div id="output" onClick={() => {
+        const isMobile = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+        if (isMobile && inputRef.current) inputRef.current.focus();
+      }}>
                  {lines.map((l, i) => {
            if (l.type === "line") return (
              <div className="line" key={i}><span className="prompt">{l.prompt}</span><span>{l.text}</span></div>
@@ -437,7 +447,7 @@ export default function Home() {
               onKeyDown={onKeyDown}
               autoFocus
             />
-            <span ref={cursorRef} className="cursor" style={{ left: `${cursorPos.left}px`, top: `${cursorPos.top}px` }}></span>
+            <span ref={cursorRef} className="cursor" style={{ left: `${cursorPos.left}px`, top: `${cursorPos.top}px`, height: cursorPos.height ? `${cursorPos.height}px` : undefined }}></span>
           </div>
         </div>
       )}
