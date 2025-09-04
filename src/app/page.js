@@ -155,7 +155,7 @@ export default function Home() {
         <div className="file" role="button" onClick={() => createWindow("Contact", content.portfolioContent.contact)}>
           <img src="/icons/contact.png" className="file-icon" alt="contact" /><br />contact
         </div>
-        <div className="file" role="button" onClick={() => window.open("/Alvi_AV_Resume.pdf", "_blank") }>
+        <div className="file" role="button" onClick={() => window.open("https://drive.google.com/file/d/189dxJaea-Zmx55-ddGKd3hrpqI6rJXpm/view?usp=sharing", "_blank") }>
           <img src="/icons/resume.png" className="file-icon" alt="resume" /><br />resume
         </div>
       </div>
@@ -316,7 +316,7 @@ export default function Home() {
     }
     if (base === "cat" || base === "open") {
       if (!rest) { typeText("cat: missing file name", "text", 3); return; }
-      if (rest === "resume") { window.open("/Alvi_AV_Resume.pdf", "_blank"); typeText("Opening resume in a new tab...", "text", 3); return; }
+      if (rest === "resume") { window.open("https://drive.google.com/file/d/189dxJaea-Zmx55-ddGKd3hrpqI6rJXpm/view?usp=sharing", "_blank"); typeText("Opening resume in a new tab...", "text", 3); return; }
       if (rest === "portfolio") { openPortfolioExplorer(); return; }
       if (isAtRoot()) {
         if (rest === "about") { createWindow("About", content.portfolioContent.about); return; }

@@ -10,7 +10,7 @@ export async function GET() {
          \\/       \\/                       \\/
       `,
       socials: [
-        { label: 'Resume', href: '/Alvi_AV_Resume.pdf', text: 'View my resume...' },
+        { label: 'Resume', href: 'https://drive.google.com/file/d/189dxJaea-Zmx55-ddGKd3hrpqI6rJXpm/view?usp=sharing', text: 'View my resume...' },
         { label: 'GitHub', href: 'https://github.com/A56-A5', text: 'github/A56-A5' },
         { label: 'LinkedIn', href: 'https://www.linkedin.com/in/alvi-av', text: 'linkedin/alvi_av' },
         { label: 'Devfolio', href: 'https://devfolio.co/@a56', text: 'devfolio.co/@a56' }
@@ -74,7 +74,7 @@ export async function GET() {
         <p> Email: <a href="mailto:alvivinod16@gmail.com">alvivinod16@gmail.com</a></p>
         <p> LinkedIn: <a href="https://www.linkedin.com/in/alvi-av" target="_blank">linkedin/alvi_av</a></p>
         <p> GitHub: <a href="https://github.com/A56-A5" target="_blank">github/A56-A5</a></p>
-        <p> <a href="/Alvi_AV_Resume.pdf" target="_blank">View Resume</a></p>
+        <p> <a href="https://drive.google.com/file/d/189dxJaea-Zmx55-ddGKd3hrpqI6rJXpm/view?usp=sharing" target="_blank">View Resume</a></p>
       `,
       other: `
         <h3>Other</h3>
