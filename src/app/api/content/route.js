@@ -19,10 +19,12 @@ export async function GET() {
     portfolioContent: {
       about: `
         <h3>About Me</h3>
-        <p>Hello! I'm <b>Alvi</b>, a developer passionate about creative coding, 
-        interactive design, and blending engineering with art.</p>
-        <p>I enjoy building unique user experiences — from <i>retro UIs</i> like this 
-        to <i>AI-powered tools</i> and <i>interactive games</i>.</p>
+        <p>Hi, I'm <b>Alvi</b> — a developer who loves turning ideas into playful, 
+        interactive experiences. I thrive at the crossroads of <i>engineering</i> and <i>art</i>, 
+        where code becomes a canvas.</p>
+        <p>From crafting <i>retro-inspired interfaces</i> to building <i>AI-driven tools</i> 
+        and <i>immersive games</i>, I’m always exploring new ways to blend creativity 
+        with technology.</p>
       `,
       projects: [
         
@@ -59,7 +61,23 @@ export async function GET() {
           sizes, and opacities. Features undo/redo support and mobile-friendly touch input.</p>
           <p><b>Project Link:</b> <a href="https://github.com/A56-A5/collaborative-whiteboard" target="_blank">github.com/A56-A5/collaborative-whiteboard</a></p>
           <p><b>Live Demo:</b> <a href="https://collaborative-whiteboard-kfu2.onrender.com" target="_blank">collaborative-whiteboard-kfu2.onrender.com</a></p>
+        `},
+        { name: "Emojify Chaos App", icon: "/icons/emojify.png", content: `
+          <h3>Emojify Chaos App</h3>
+          <p>A quirky web app where filling out a registration form is nearly impossible with jumping fields 
+          and a tiny register button. Once inside, the chatroom hilariously flips your messages into their 
+          opposite meaning and sprinkles random emojis using the Gemini Flash 1.5 API.</p>
+          <p><b>Project Link:</b> <a href="https://github.com/A56-A5/emojify" target="_blank">github.com/A56-A5/emojify</a></p>
+          <p><b>Live Demo:</b> <a href="https://emojify-murex.vercel.app" target="_blank">emojify-murex.vercel.app</a></p>          
+        `},{ 
+          name: "EcoClassify AI", icon: "/icons/ecoclassify.png", content: `
+          <h3>EcoClassify AI</h3>
+          <p>A web app that classifies waste into Organic, Recyclable, or Unusable using a Teachable Machine model. 
+          Built with a lightweight HTML/CSS/JS frontend and a Flask backend for authentication and image handling.</p>
+          <p><b>Project Link:</b> <a href="https://github.com/A56-A5/ecoclassify" target="_blank">github.com/A56-A5/ecoclassify</a></p>
         `}
+
+
       ],
       achievements: `
         <h3>Achievements</h3>
@@ -93,34 +111,36 @@ export async function GET() {
       ],
       whoami: `
         <h3>User Profile</h3>
-        <p><b>Username:</b> alvi</p>
+        <p><b>Username:</b> A56 A5</p>
         <p><b>Name:</b> Alvi A V</p>
         <p><b>Location:</b> India</p>
-        <p><b>Bio:</b> Second-year B.Tech student in Data Science with a strong drive for full-stack web development and AI-driven solutions.</p>
-      `
+        <p><b>Bio:</b> I’m a second-year B.Tech Data Science student passionate about building 
+        full-stack web apps and exploring the potential of AI. I love experimenting with creative 
+        projects that bridge technology, design, and real-world problem-solving.</p>
+        `
     },
     helpHtml: `
-<span class="category">CORE</span>
-<span class="cmd">help</span>       <span class="desc">Show this help message</span><br>
-<span class="cmd">cat portfolio</span>      <span class="desc">Open portfolio UI</span><br>
-<span class="cmd">ls</span>         <span class="desc">List files/folders</span><br>
-<span class="cmd">pwd</span>        <span class="desc">Show current directory</span><br>
-<span class="cmd">cd [dir]</span>   <span class="desc">Change directory</span><br>
-<span class="cmd">cat [file]</span> <span class="desc">Open a file / window</span><br>
-<span class="cmd">open [file]</span> <span class="desc">Alias for 'cat'</span><br>
-<span class="cmd">clear</span>      <span class="desc">Clear terminal screen</span><br>
-<span class="category">INFO</span>
-<span class="cmd">whoami</span>     <span class="desc">Show user information</span><br>
-<span class="cmd">exit</span>       <span class="desc">Reset the terminal</span><br>
-<span class="cmd">logout</span>     <span class="desc">Alias for 'exit'</span><br>
-<span class="category">PORTFOLIO</span>
-<span class="cmd">cat about</span>          <span class="desc">Open About</span><br>
-<span class="cmd">cd projects</span>        <span class="desc">Enter projects folder</span><br>
-<span class="cmd">ls</span>                 <span class="desc">List projects</span><br>
-<span class="cmd">cat [proj name]</span>    <span class="desc">Open project</span><br>
-<span class="cmd">cat portfolio</span>      <span class="desc">Open portfolio UI</span><br>
-<span class="cmd">cat resume</span>         <span class="desc">Open my resume</span>
-`,
+    <span class="category">CORE</span>
+    <span class="cmd">help</span>       <span class="desc">Show this help message</span><br>
+    <span class="cmd">cat portfolio</span>      <span class="desc">Open portfolio UI</span><br>
+    <span class="cmd">ls</span>         <span class="desc">List files/folders</span><br>
+    <span class="cmd">pwd</span>        <span class="desc">Show current directory</span><br>
+    <span class="cmd">cd [dir]</span>   <span class="desc">Change directory</span><br>
+    <span class="cmd">cat [file]</span> <span class="desc">Open a file / window</span><br>
+    <span class="cmd">open [file]</span> <span class="desc">Alias for 'cat'</span><br>
+    <span class="cmd">clear</span>      <span class="desc">Clear terminal screen</span><br>
+    <span class="category">INFO</span>
+    <span class="cmd">whoami</span>     <span class="desc">Show user information</span><br>
+    <span class="cmd">exit</span>       <span class="desc">Reset the terminal</span><br>
+    <span class="cmd">logout</span>     <span class="desc">Alias for 'exit'</span><br>
+    <span class="category">PORTFOLIO</span>
+    <span class="cmd">cat about</span>          <span class="desc">Open About</span><br>
+    <span class="cmd">cd projects</span>        <span class="desc">Enter projects folder</span><br>
+    <span class="cmd">ls</span>                 <span class="desc">List projects</span><br>
+    <span class="cmd">cat [proj name]</span>    <span class="desc">Open project</span><br>
+    <span class="cmd">cat portfolio</span>      <span class="desc">Open portfolio UI</span><br>
+    <span class="cmd">cat resume</span>         <span class="desc">Open my resume</span>
+    `,
   };
   return new Response(JSON.stringify(data), { headers: { 'content-type': 'application/json' } });
 }
