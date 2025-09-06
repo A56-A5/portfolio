@@ -146,13 +146,37 @@ body {
 /* Ensure links are visible inside retro window */
 .window-body a { color: #0645ad; text-decoration: none; }
 .window-body a:hover { text-decoration: underline; }
-/* Hide window body scrollbar */
+/* Retro-style scrollbar for window body */
 .window-body::-webkit-scrollbar {
-  display: none;
+  width: 16px;
 }
+.window-body::-webkit-scrollbar-track {
+  background: #c0c0c0;
+  border: 2px solid #000;
+  border-radius: 0;
+}
+.window-body::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #f0f0f0 0%, #d0d0d0 50%, #a0a0a0 100%);
+  border: 2px solid #000;
+  border-radius: 0;
+  box-shadow: inset 1px 1px 0px #ffffff, inset -1px -1px 0px #808080;
+}
+.window-body::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #e0e0e0 0%, #c0c0c0 50%, #909090 100%);
+  box-shadow: inset 1px 1px 0px #ffffff, inset -1px -1px 0px #606060;
+}
+.window-body::-webkit-scrollbar-thumb:active {
+  background: linear-gradient(45deg, #d0d0d0 0%, #b0b0b0 50%, #808080 100%);
+  box-shadow: inset 2px 2px 0px #606060, inset -2px -2px 0px #ffffff;
+}
+.window-body::-webkit-scrollbar-corner {
+  background: #c0c0c0;
+  border: 2px solid #000;
+}
+/* Firefox scrollbar styling */
 .window-body {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  scrollbar-width: auto;
+  scrollbar-color: #a0a0a0 #c0c0c0;
 }
 
 /* Resize handles */

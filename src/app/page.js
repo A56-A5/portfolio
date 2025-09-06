@@ -16,6 +16,7 @@ export default function Home() {
   const [showInput, setShowInput] = useState(false);
   const [history, setHistory] = useState([]);
   const [historyIndex, setHistoryIndex] = useState(null);
+  const lastWindowPosition = useRef({ x: 100, y: 100 });
 
   useEffect(() => {
     fetch("/api/content").then(r => r.json()).then(setContent);
@@ -132,14 +133,41 @@ export default function Home() {
     typeNode();
   }
 
+  // Helper function to calculate window position
+  function calculateWindowPosition() {
+    // Offset by 30px down and 30px right from the last window
+    let x = lastWindowPosition.current.x + 30;
+    let y = lastWindowPosition.current.y + 30;
+    
+    // Ensure window doesn't go off screen
+    const maxX = window.innerWidth - 400; // 400px is default window width
+    const maxY = window.innerHeight - 280; // 280px is default window height
+    if (x > maxX) x = 100; // Reset to left if too far right
+    if (y > maxY) y = 100; // Reset to top if too far down
+    
+    // Update the ref for next window
+    lastWindowPosition.current = { x, y };
+    
+    return { x, y };
+  }
+
   function createWindow(title, html) {
     const id = Math.random().toString(36).slice(2);
-    setWindows(prev => [...prev, { id, title, body: html, zIndex: Date.now() }]);
+    const { x, y } = calculateWindowPosition();
+    
+    setWindows(prev => [...prev, { 
+      id, 
+      title, 
+      body: html, 
+      zIndex: Date.now(),
+      initial: { x, y }
+    }]);
   }
 
   function openPortfolioExplorer() {
     if (!content) return;
     const id = Math.random().toString(36).slice(2);
+    const { x, y } = calculateWindowPosition();
     const body = (
       <div className="file-grid">
         <div className="file" role="button" onClick={() => createWindow("About", content.portfolioContent.about)}>
@@ -162,12 +190,19 @@ export default function Home() {
         </div>
       </div>
     );
-    setWindows(prev => [...prev, { id, title: "Portfolio", body, zIndex: Date.now() }]);
+    setWindows(prev => [...prev, { 
+      id, 
+      title: "Portfolio", 
+      body, 
+      zIndex: Date.now(),
+      initial: { x, y }
+    }]);
   }
 
   function openProjectsExplorer() {
     if (!content) return;
     const id = Math.random().toString(36).slice(2);
+    const { x, y } = calculateWindowPosition();
     const body = (
       <div className="file-grid">
         {content.portfolioContent.projects.map((p, i) => (
@@ -178,12 +213,19 @@ export default function Home() {
         ))}
       </div>
     );
-    setWindows(prev => [...prev, { id, title: "Projects", body, zIndex: Date.now() }]);
+    setWindows(prev => [...prev, { 
+      id, 
+      title: "Projects", 
+      body, 
+      zIndex: Date.now(),
+      initial: { x, y }
+    }]);
   }
 
   function openOtherExplorer() {
     if (!content) return;
     const id = Math.random().toString(36).slice(2);
+    const { x, y } = calculateWindowPosition();
     const items = content.portfolioContent.otherLinks || [];
     const iconFor = (name) => {
       const n = name.toLowerCase();
@@ -202,26 +244,45 @@ export default function Home() {
         ))}
       </div>
     );
-    setWindows(prev => [...prev, { id, title: "Other", body, zIndex: Date.now() }]);
+    setWindows(prev => [...prev, { 
+      id, 
+      title: "Other", 
+      body, 
+      zIndex: Date.now(),
+      initial: { x, y }
+    }]);
   }
 
   function openWindow(kind) {
     const id = Math.random().toString(36).slice(2);
+    const { x, y } = calculateWindowPosition();
     if (kind === "projects") {
-      setWindows(prev => [...prev, { id, title: "Projects", body: (
-        <div className="file-grid">
-          {content.portfolioContent.projects.map((p, i) => (
-            <div key={i} className="file" role="button" onClick={() => createWindow(p.name, p.content)}>
-              <img src={p.icon || "/icons/projects.png"} className="file-icon" alt={p.name} />
-              <div>{p.name}</div>
-            </div>
-          ))}
-        </div>
-      ), zIndex: Date.now() }]);
+      setWindows(prev => [...prev, { 
+        id, 
+        title: "Projects", 
+        body: (
+          <div className="file-grid">
+            {content.portfolioContent.projects.map((p, i) => (
+              <div key={i} className="file" role="button" onClick={() => createWindow(p.name, p.content)}>
+                <img src={p.icon || "/icons/projects.png"} className="file-icon" alt={p.name} />
+                <div>{p.name}</div>
+              </div>
+            ))}
+          </div>
+        ), 
+        zIndex: Date.now(),
+        initial: { x, y }
+      }]);
     } else if (kind === "achievements") {
-      setWindows(prev => [...prev, { id, title: "Achievements", body: (
-        <div dangerouslySetInnerHTML={{ __html: content.portfolioContent.achievements }} />
-      ), zIndex: Date.now() }]);
+      setWindows(prev => [...prev, { 
+        id, 
+        title: "Achievements", 
+        body: (
+          <div dangerouslySetInnerHTML={{ __html: content.portfolioContent.achievements }} />
+        ), 
+        zIndex: Date.now(),
+        initial: { x, y }
+      }]);
     }
   }
 
@@ -236,7 +297,7 @@ export default function Home() {
     const isAtRoot = () => cwd.length === 1;
     const isInProjects = () => cwd.length === 2 && cwd[1] === "projects";
     const isInOther = () => cwd.length === 2 && cwd[1] === "other";
-    const listRoot = () => ["about", "projects/", "achievements", "other/", "contact", "resume"];
+    const listRoot = () => ["about", "projects/", "achievements", "other/", "contact", "resume", "portfolio"];
     const listProjects = () => content.portfolioContent.projects.map(p => p.name);
     const listOther = () => (content.portfolioContent.otherLinks||[]).map(l => l.name);
     const normalize = (s) => (s || "").toLowerCase();
@@ -245,12 +306,19 @@ export default function Home() {
     if (base === "whoami") { typeHtml(content.portfolioContent.whoami, false, 3); return; }
     if (base === "duck") {
       const id = Math.random().toString(36).slice(2);
+      const { x, y } = calculateWindowPosition();
       const body = (
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <img src="/icons/duck.gif" alt="duck" style={{ maxWidth: '100%', height: 'auto' }} />
         </div>
       );
-      setWindows(prev => [...prev, { id, title: "Duck", body, zIndex: Date.now() }]);
+      setWindows(prev => [...prev, { 
+        id, 
+        title: "Duck", 
+        body, 
+        zIndex: Date.now(),
+        initial: { x, y }
+      }]);
       return;
     }
     if (base === "exit" || base === "logout") {
@@ -542,7 +610,7 @@ export default function Home() {
       )}
 
       {windows.map(w => (
-        <RetroWindow key={w.id} id={w.id} title={w.title} onClose={() => setWindows(prev => prev.filter(x => x.id !== w.id))} initial={{ zIndex: w.zIndex }}>
+        <RetroWindow key={w.id} id={w.id} title={w.title} onClose={() => setWindows(prev => prev.filter(x => x.id !== w.id))} initial={{ zIndex: w.zIndex, x: w.initial?.x, y: w.initial?.y }}>
           {typeof w.body === 'string' ? <div dangerouslySetInnerHTML={{ __html: w.body }} /> : w.body}
         </RetroWindow>
       ))}
