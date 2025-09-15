@@ -304,6 +304,36 @@ export default function Home() {
     const toSpace = (s) => (s || "").replace(/_/g, " ");
 
     if (base === "whoami") { typeHtml(content.portfolioContent.whoami, false, 3); return; }
+    if (base === "linkedin") {
+      window.open("https://www.linkedin.com/in/alvi-av", "_blank");
+      typeText("Opening LinkedIn...", "text", 3);
+      return;
+    }
+    if (base === "github") {
+      window.open("https://github.com/A56-A5", "_blank");
+      typeText("Opening GitHub...", "text", 3);
+      return;
+    }
+    if (base === "resume") {
+      window.open("https://drive.google.com/file/d/189dxJaea-Zmx55-ddGKd3hrpqI6rJXpm/view", "_blank");
+      typeText("Opening resume...", "text", 3);
+      return;
+    }
+    if (base === "email") {
+      window.open("mailto:alvivinod16@gmail.com", "_blank");
+      typeText("Opening email client...", "text", 3);
+      return;
+    }
+    if (base === "leetcode") {
+      window.open("https://leetcode.com/u/A56A5", "_blank");
+      typeText("Opening leetcode...", "text", 3);
+      return;
+    }
+    if (base === "devfolio") {
+      window.open("https://devfolio.co/@a56", "_blank");
+      typeText("Opening devfolio...", "text", 3);
+      return;
+    }
     if (base === "duck") {
       const id = Math.random().toString(36).slice(2);
       const { x, y } = calculateWindowPosition();
@@ -324,7 +354,7 @@ export default function Home() {
     if (base === "exit" || base === "logout") {
       setLines([]);
       setCwd(["portfolio"]);
-      typeText("Connection closed. \n Type anything to reconnect...", "text", 3);
+      typeText("Connection closed. ", "text", 3);
       return;
     }
     if (base === "help") { typeHtml(content.helpHtml, true, 3); return; }
