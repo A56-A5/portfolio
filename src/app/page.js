@@ -359,7 +359,7 @@ export default function Home() {
     }
     if (base === "help") { typeHtml(content.helpHtml, true, 3); return; }
     if (base === "echo") { typeText(rest, "text", 3); return; }
-    if (base === "sudo") { typeText("sudo: permission denied. are you even root?", "text", 3); return; }
+    if (base === "sudo") { typeText("sudo: permission denied. are you even me?", "text", 3); return; }
     if (base === "relationship") { typeText("relationship: not found (404: still loading...)", "text", 3); return; }
     if (base === "mkdir" || base === "touch") { typeText(`${base}: invalid access in this filesystem`, "text", 3); return; }
     if (base === "history") {
