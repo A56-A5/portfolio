@@ -34,6 +34,11 @@ export async function GET() {
           multiple devices on the same network. Supports both Linux and Windows.</p>
           <p><b>Project Link:</b> <a href="https://github.com/A56-A5/portal" target="_blank">github.com/A56-A5/portal</a></p>
         `},
+        { name: "TTS", icon: "/icons/tts.png", content: `
+          <h3>Realtime Dictation + TTS</h3>
+          <p>A desktop app that turns your speech into text in real-time and reads it back with customizable voice, speed, and volume. Includes playback controls (pause, resume, stop) and works fully offline once installed.</p>
+          <p><b>Project Link:</b> <a href="https://github.com/A56-A5/TTS" target="_blank">github.com/A56-A5/TTS</a></p>
+        `},
         { name: "StockFolio", icon: "/icons/stock.png", content: `
           <h3>StockFolio</h3>
           <p>A stock market educational and prediction platform designed to make financial knowledge and
