@@ -1,4 +1,4 @@
-# Alvi AV — Terminal Portfolio  
+# Alvi AV - Terminal Portfolio  
 
 A **dynamic, retro-themed terminal portfolio** built with **Next.js**, designed to blend creativity and functionality.  
 This project recreates a playful terminal-like interface where visitors can explore your **About, Projects, Achievements, Contact, Resume, and more** using familiar shell commands or a retro file explorer UI.  
