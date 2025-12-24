@@ -34,10 +34,22 @@ export async function GET() {
           multiple devices on the same network. Supports both Linux and Windows.</p>
           <p><b>Project Link:</b> <a href="https://github.com/A56-A5/portal" target="_blank">github.com/A56-A5/portal</a></p>
         `},
-        { name: "TTS", icon: "/icons/tts.png", content: `
-          <h3>Realtime Dictation + TTS</h3>
-          <p>A desktop app that turns your speech into text in real-time and reads it back with customizable voice, speed, and volume. Includes playback controls (pause, resume, stop) and works fully offline once installed.</p>
-          <p><b>Project Link:</b> <a href="https://github.com/A56-A5/TTS" target="_blank">github.com/A56-A5/TTS</a></p>
+        { name: "Across The Ripple", icon: "/icons/boat.png", content: `
+          <h3>GameOff 2025 Project</h3>
+          <p>I came across GameOff 2025 in the middle of my university exams, so I decided to build a 3D game for the first time.</p>
+          <p><b>Project Link:</b> <a href="https://github.com/A56-A5/AcrossTheRipple" target="_blank">github.com/A56-A5/AcrossTheRipple</a></p>
+          <p><b>Live Demo:</b> <a href="https://a56-a5.itch.io/across-the-ripple" target="_blank">a56-a5.itch.io/across-the-ripple</a></p>
+        `},
+        { name: "Clicks", icon: "/icons/clicks.png", content: `
+          <h3>Three.js 3D Keyboard</h3>
+          <p>A 3D interactive keyboard with customizable colors, keyboard sounds. Includes typing demo experience.</p>
+          <p><b>Project Link:</b> <a href="https://github.com/A56-A5/clicks" target="_blank">github.com/A56-A5/clicks</a></p>
+          <p><b>Live Demo:</b> <a href="https://clicks-type.vercel.app/" target="_blank">clicks-type.vercel.app</a></p>
+        `},
+        { name: "Terminal Audio Visualizer", icon: "/icons/audiovisualizer.png", content: `
+          <h3>Terminal Audio Visualizer</h3>
+          <p>A real-time terminal audio visualizer using Python, NumPy, and Soundcard. Displays audio FFT as vertical bars in your terminal. </p>
+          <p><b>Project Link:</b> <a href="https://github.com/A56-A5/terminal-audio-visualizer" target="_blank">github.com/A56-A5/terminal-audio-visualizer</a></p>
         `},
         { name: "StockFolio", icon: "/icons/stock.png", content: `
           <h3>StockFolio</h3>
@@ -74,8 +86,13 @@ export async function GET() {
           opposite meaning and sprinkles random emojis using the Gemini Flash 1.5 API.</p>
           <p><b>Project Link:</b> <a href="https://github.com/A56-A5/emojify" target="_blank">github.com/A56-A5/emojify</a></p>
           <p><b>Live Demo:</b> <a href="https://emojify-murex.vercel.app" target="_blank">emojify-murex.vercel.app</a></p>          
-        `},{ 
-          name: "EcoClassify AI", icon: "/icons/ecoclassify.png", content: `
+        `},
+        { name: "TTS", icon: "/icons/tts.png", content: `
+          <h3>Realtime Dictation + TTS</h3>
+          <p>A desktop app that turns your speech into text in real-time and reads it back with customizable voice, speed, and volume. Includes playback controls (pause, resume, stop) and works fully offline once installed.</p>
+          <p><b>Project Link:</b> <a href="https://github.com/A56-A5/TTS" target="_blank">github.com/A56-A5/TTS</a></p>
+        `},
+        { name: "EcoClassify AI", icon: "/icons/ecoclassify.png", content: `
           <h3>EcoClassify AI</h3>
           <p>A web app that classifies waste into Organic, Recyclable, or Unusable using a Teachable Machine model. 
           Built with a lightweight HTML/CSS/JS frontend and a Flask backend for authentication and image handling.</p>
@@ -109,6 +126,7 @@ export async function GET() {
         </ul>
       `,
       otherLinks: [
+        { name: "github", label: "GitHub", href: "https://github.com/A56-A5" },
         { name: "leetcode", label: "LeetCode", href: "https://leetcode.com/u/A56A5" },
         { name: "monkeytype", label: "Monkeytype (129 WPM)", href: "https://monkeytype.com/profile/A56" },
         { name: "games", label: "Games", href: "https://a56-a5.github.io/Random-Stuff/Code/games.html" },

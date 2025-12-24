@@ -46,7 +46,7 @@ export default function Home() {
     setTimeout(() => {
       setShowInput(true);
       inputRef.current && inputRef.current.focus();
-    }, 5000);
+    }, 3000);
   }, [content]);
 
   function print(text) {
@@ -57,7 +57,7 @@ export default function Home() {
     setLines(prev => [...prev, { type: isHelp ? "help" : "html", html }]);
   }
 
-  function typeText(text, type = "text", speed = 5) {
+  function typeText(text, type = "text", speed = 15) {
     const lineId = Math.random().toString(36).slice(2);
     setLines(prev => [...prev, { id: lineId, type, text: "" }]);
     
@@ -233,6 +233,7 @@ export default function Home() {
       if (n.includes('game')) return '/icons/game.png';
       if (n.includes('monkey')) return '/icons/monkey.png';
       if (n.includes('leet')) return '/icons/leetcode.png';
+      if (n.includes('github')) return '/icons/github.png';
       return '/icons/projects.png';
     };
     const body = (
@@ -470,7 +471,7 @@ export default function Home() {
       typeText(`cat: ${rest}: No such file`, "text", 3);
       return;
     }
-    typeText(`Command not found: ${cmd}`, "text", 3);
+    typeText(`Command not found: ${cmd}; use help for a list of commands`, "text", 3);
   }
 
   function onKeyDown(e) {
