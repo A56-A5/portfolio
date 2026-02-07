@@ -121,9 +121,14 @@ export async function GET() {
       achievements: `
         <h3>Achievements</h3>
         <ul>
-          <li> 1st place in Debugging Python (August 11, 2025) at Christ College of Engineering</li>
-          <li> 1st position in Idea pitching (February 6, 2025) at Christ College of Engineering</li>
-          <li> 1st prize in Web Development (July 9, 2024) at Christ College of Engineering</li>
+          <li> Best Innovative Game at Global Game Jam 2026 Kerala for "The Last Face"</li>
+          <li> 1st place in Code-Marathon (Jan 28, 2026) at St. Mary's College, Thrissur</li>
+          <li> 1st place in Speed Typing (Jan 29, 2026) at St. Mary's College, Thrissur</li>
+          <li> 312th place globally in GameOff 2025  for "Across The Ripple"</li>
+          <li> 1st place in KeyStorm (Oct 24, 2025) at Christ College of Engineering,Irinjalakuda</li>
+          <li> 1st place in Debugging Python (August 11, 2025) at Christ College of Engineering,Irinjalakuda</li>
+          <li> 1st position in Idea pitching (February 6, 2025) at Christ College of Engineering,Irinjalakuda</li>
+          <li> 1st prize in Web Development (July 9, 2024) at Christ College of Engineering,Irinjalakuda</li>
         </ul>
       `,
       contact: `
