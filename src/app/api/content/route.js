@@ -34,6 +34,23 @@ export async function GET() {
           multiple devices on the same network. Supports both Linux and Windows.</p>
           <p><b>Project Link:</b> <a href="https://github.com/A56-A5/portal" target="_blank">github.com/A56-A5/portal</a></p>
         `},
+        { name: "Survive the Island", icon: "/icons/island.png", content: `
+          <h3>Survive the Island</h3>
+          <p>A 10-day survival-themed coding challenge created as a pre-event for Beach Hack — Season 7. 
+          Designed to test logical thinking and consistency, players face daily trials to reach the island's final escape.</p>
+          <p><b>Prize Pool:</b> ₹5,000 INR</p>
+          <p><b>Project Links:</b> <a href="https://github.com/A56-A5/survive-the-island" target="_blank">github.com/A56-A5/survive-the-island</a> </p>
+          <p><b>Live Demo:</b>  <a href="https://survive-the-island.vercel.app/" target="_blank">survive-the-island.vercel.app</a> </p>
+        `},
+        { name: "The Last Face", icon: "/icons/mask.png", content: `
+          <h3>The Last Face</h3>
+          <p><b>Winner: Best Innovative Game</b> | Global Game Jam 2026 Kerala.</p>
+          <p>A psychological horror detective game set in a remote Indian village. 
+          Interrogate villagers and analyze behaviors to identify a shapeshifting <i>Rakshasa</i> 
+          before the skinwalker consumes everyone.</p>
+          <p><b>Project Links:</b> <a href="https://github.com/A56-A5/GGJ-2026" target="_blank">github.com/A56-A5/GGJ-2026</a> </p>
+          <p><b>Live Demo:</b> <a href="https://ggj-2026.vercel.app/" target="_blank">ggj-2026.vercel.app</a> </p>
+        `},
         { name: "Across The Ripple", icon: "/icons/boat.png", content: `
           <h3>GameOff 2025 Project</h3>
           <p>I came across GameOff 2025 in the middle of my university exams, so I decided to build a 3D game for the first time.</p>
