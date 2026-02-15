@@ -10,7 +10,7 @@ export async function GET() {
          \\/       \\/                       \\/
       `,
       socials: [
-        { label: 'Resume', href: 'https://drive.google.com/file/d/189dxJaea-Zmx55-ddGKd3hrpqI6rJXpm/view?usp=sharing', text: 'View my resume...' },
+        { label: 'Resume', href: 'https://drive.google.com/file/d/1jAdwQO6Gs7rDFPhKITQH__3_E8daBaA-/view?usp=sharing', text: 'View my resume...' },
         { label: 'GitHub', href: 'https://github.com/A56-A5', text: 'github/A56-A5' },
         { label: 'LinkedIn', href: 'https://www.linkedin.com/in/alvi-av', text: 'linkedin/alvi_av' },
         { label: 'Devfolio', href: 'https://devfolio.co/@a56', text: 'devfolio.co/@a56' }
