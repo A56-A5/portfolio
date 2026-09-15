@@ -52,6 +52,10 @@
     pointer-events:none;
     z-index:9999;
   }
+  body.is-drawing,
+  body.is-drawing *{
+    user-select:none;
+  }
   ::selection{ background:var(--accent); color:var(--paper); }
   .wrap{
     max-width:720px;
@@ -705,15 +709,16 @@ window.addEventListener('load', function(){
 (function(){
   const BRUSH_CONFIG = {
     lifetime: 4000,
-    minWidth: 1,
-    maxWidth: 3,
+    minWidth: 1.15,
+    maxWidth: 2.35,
     opacity: 0.5,
-    jitter: 0.5,
+    jitter: 0.22,
     fadeWindow: 450,
     minPointDistance: 0.75
   };
   const canvas = document.getElementById('pencilCanvas');
   const context = canvas.getContext('2d');
+  const pencilColor = getComputedStyle(document.documentElement).getPropertyValue('--ink').trim() || '#15140F';
   const strokes = [];
   let activeStroke = null;
   let drawing = false;
@@ -760,18 +765,11 @@ window.addEventListener('load', function(){
     context.moveTo(start.x + start.jitterX, start.y + start.jitterY);
     context.lineTo(end.x + end.jitterX, end.y + end.jitterY);
     context.stroke();
-
-    context.globalAlpha *= 0.22;
-    context.lineWidth = Math.max(0.5, end.width * 0.45);
-    context.beginPath();
-    context.moveTo(start.x - start.jitterY, start.y + start.jitterX);
-    context.lineTo(end.x - end.jitterY, end.y + end.jitterX);
-    context.stroke();
   }
 
   function render(now){
     context.clearRect(0, 0, window.innerWidth, window.innerHeight);
-    context.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--ink').trim() || '#15140F';
+    context.strokeStyle = pencilColor;
     for (let strokeIndex = strokes.length - 1; strokeIndex >= 0; strokeIndex -= 1) {
       const stroke = strokes[strokeIndex];
       const cutoff = now - BRUSH_CONFIG.lifetime;
@@ -794,23 +792,36 @@ window.addEventListener('load', function(){
   }
 
   window.addEventListener('resize', resizeCanvas, { passive:true });
+  function clearStrokes(){
+    drawing = false;
+    activeStroke = null;
+    document.body.classList.remove('is-drawing');
+    strokes.length = 0;
+    context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+  }
+  window.addEventListener('scroll', clearStrokes, { passive:true });
   document.addEventListener('pointerdown', function(event){
     if (event.isPrimary === false) return;
     drawing = true;
+    document.body.classList.add('is-drawing');
     activeStroke = { points:[] };
     strokes.push(activeStroke);
     addPoint(event);
-  }, { passive:true });
+  }, { capture:true, passive:true });
   document.addEventListener('pointermove', function(event){
     if (drawing) addPoint(event);
   }, { passive:true });
   function stopDrawing(){
     drawing = false;
     activeStroke = null;
+    document.body.classList.remove('is-drawing');
   }
   document.addEventListener('pointerup', stopDrawing, { passive:true });
   document.addEventListener('pointercancel', stopDrawing, { passive:true });
   document.addEventListener('pointerleave', stopDrawing, { passive:true });
+  document.addEventListener('selectstart', function(event){
+    if (drawing) event.preventDefault();
+  });
   resizeCanvas();
   requestAnimationFrame(render);
 })();
