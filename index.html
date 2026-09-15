@@ -3,7 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Alvi - Portfolio</title>
+<title>Alvi A V</title>
+<meta name="description" content="Alvi A V - B.Tech CSE (Data Science) student in Kerala, India. Full-stack, systems &amp; AI builder. Open to work.">
+<meta name="author" content="Alvi A V">
+<link rel="canonical" href="https://alvi.is-a.dev/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>A</text></svg>">
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://alvi.is-a.dev/">
+<meta property="og:description" content="Full-stack, systems &amp; AI builder based in Kerala, India. Open to work.">
+<meta property="og:title" content="Alvi A V">
+<meta property="og:image" content="https://alvi.is-a.dev/hi-im-alvi.svg">
+<meta property="og:locale" content="en_IN">
+<!-- Twitter -->
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Alvi A V">
+<meta name="twitter:description" content="Full-stack, systems &amp; AI builder based in Kerala, India. Open to work.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Kalam:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -19,7 +34,10 @@
     --muted:#6B6A61;
   }
   *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  html{
+    scroll-behavior:smooth;
+    scroll-snap-type:y proximity;
+  }
   body{
     margin:0;
     background:var(--paper);
@@ -81,7 +99,12 @@
     transition:opacity .6s ease;
   }
   .hero-tag.show{ opacity:0.85; }
-  section{ padding:110px 0; border-top:1px solid var(--line); }
+  section{
+    padding:110px 0;
+    border-top:1px solid var(--line);
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
+  }
   section:first-of-type{ border-top:none; }
   h2{
     font-family:'Baloo 2', sans-serif;
@@ -235,6 +258,43 @@
   
   
   
+
+  /* skip link */
+  .skip-link{
+    position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
+  }
+  .skip-link:focus{
+    position:fixed; left:16px; top:16px; width:auto; height:auto; z-index:100;
+    background:var(--ink); color:var(--paper); padding:10px 16px; border-radius:4px;
+    font-weight:600; text-decoration:none;
+  }
+  /* scroll fade-in */
+  .reveal{
+    opacity:0; transform:translateY(14px);
+    transition:opacity .55s ease, transform .55s ease;
+  }
+  .reveal.visible{ opacity:1; transform:translateY(0); }
+  /* skills pills */
+  .skills-wrap{ margin-top:8px; }
+  .skills{
+    display:flex; flex-wrap:wrap; gap:8px; margin-top:18px;
+  }
+  .skill{
+    font-size:13px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:5px 12px;
+    background:var(--paper-dim);
+    color:var(--ink);
+  }
+  .open-to-work{
+    display:inline-block;
+    margin-top:12px;
+    font-family:'Kalam', cursive;
+    font-size:15px;
+    color:var(--hand);
+  }
+
 /* ---------- responsive ---------- */
 
   @media (max-width:720px){
@@ -270,6 +330,9 @@
     .stats-row{ gap:12px; }
     .stat strong{ font-size:18px; }
   }
+  @media (prefers-reduced-motion:reduce){
+    html{ scroll-behavior:auto; scroll-snap-type:none; }
+  }
 
 
   
@@ -301,7 +364,17 @@
     color:var(--accent);
     transform:translateY(-2px);
   }
-  .hero-links a svg, .contact-links a svg{ display:block; }
+  .hero-links a svg, .contact-links a svg,
+  .hero-links a img, .contact-links a img{ display:block; }
+  .leetcode-icon{
+    width:22px;
+    height:22px;
+    display:block;
+    filter:grayscale(1) brightness(0.2);
+  }
+  .hero-links a:hover .leetcode-icon, .contact-links a:hover .leetcode-icon{
+    filter:brightness(0) saturate(100%) invert(42%) sepia(89%) saturate(2521%) hue-rotate(345deg) brightness(102%) contrast(101%);
+  }
 
 
   .hero-projects{
@@ -320,7 +393,9 @@
 </style>
 </head>
 <body>
+  <a class="skip-link" href="#main">Skip to content</a>
   <div class="wrap">
+    <main id="main">
     <section class="hero" style="border-top:none;">
       <div class="hw-wrap">
         <svg xmlns="http://www.w3.org/2000/svg"
@@ -366,51 +441,7 @@
       #i2_stroke    { animation: paint 0.09s 1.45s forwards; }
       #i2_dot       { animation: paint 0.05s 1.54s forwards; }
     ]]>
-  
-  .hero-links, .contact-links{
-    display:flex; flex-wrap:wrap; gap:16px;
-    margin-top:22px;
-    align-items:center;
-  }
-  .hero-links{
-    opacity:0;
-    transition:opacity .6s ease;
-  }
-  .hero-links.show{ opacity:1; }
-  .hero-links a, .contact-links a{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    color:var(--ink);
-    text-decoration:none;
-    opacity:0.75;
-    transition:opacity .2s, color .2s, transform .15s;
-    border:none;
-    background:none;
-    padding:0;
-  }
-  .hero-links a:hover, .contact-links a:hover{
-    opacity:1;
-    color:var(--accent);
-    transform:translateY(-2px);
-  }
-  .hero-links a svg, .contact-links a svg{ display:block; }
-
-
-  .hero-projects{
-    display:inline-block;
-    margin-top:28px;
-    font-family:'Kalam', cursive;
-    font-size:16px;
-    color:var(--hand);
-    text-decoration:none;
-    opacity:0;
-    transition:opacity .5s ease, color .2s;
-  }
-  .hero-projects.show{ opacity:0.9; }
-  .hero-projects:hover{ color:var(--accent); opacity:1; }
-
-</style>
+    </style>
   </defs>
   <g id="lettering" transform="translate(8,4) skewX(-6) scale(0.88)">
     <path id="H_stroke_1" class="brush heavy" pathLength="1"
@@ -462,7 +493,7 @@
         <a href="https://www.linkedin.com/in/alvi-av/" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43c-1.14 0-2.06-.93-2.06-2.06 0-1.14.92-2.06 2.06-2.06 1.14 0 2.06.92 2.06 2.06 0 1.13-.92 2.06-2.06 2.06zM7.12 20.45H3.56V9h3.56v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.23 0z"/></svg>
         </a>
-        <a href="https://leetcode.com/u/A56A5/" target="_blank" rel="noopener" title="LeetCode" aria-label="LeetCode"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.483 0a1.37 1.37 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 7.992-.074a5.41 5.41 0 0 0 1.682-3.308 5.495 5.495 0 0 0 .087-1.052 5.484 5.484 0 0 0-.852-3.087 5.404 5.404 0 0 0-.808-1.014L13.988 10.55l.014-.015a.85.85 0 0 0-.075-1.19.85.85 0 0 0-1.2.074l-3.563 3.79a.842.842 0 0 0 .046 1.17.85.85 0 0 0 1.18-.04l1.95-1.842a3.73 3.73 0 0 1 .76 2.314 3.7 3.7 0 0 1-.595 2.045 3.737 3.737 0 0 1-1.615 1.318 3.772 3.772 0 0 1-2.038.25 3.738 3.738 0 0 1-1.85-.94L4.95 14.945a4.1 4.1 0 0 1-.88-1.237 3.96 3.96 0 0 1-.292-1.547 3.99 3.99 0 0 1 .928-2.514l3.92-4.195 4.905-5.12A.85.85 0 0 0 13.483 1.7a.84.84 0 0 0 .61-.25.852.852 0 0 0 0-1.2A.84.84 0 0 0 13.483 0zm3.226 8.25a.75.75 0 0 0 0 1.5h6.5a.75.75 0 0 0 0-1.5h-6.5zm1.5 3a.75.75 0 0 0 0 1.5h5a.75.75 0 0 0 0-1.5h-5zm1.5 3a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-3.5z"/></svg>
+        <a href="https://leetcode.com/u/A56A5/" target="_blank" rel="noopener" title="LeetCode" aria-label="LeetCode"><img class="leetcode-icon" src="https://leetcode.com/favicon.ico" width="22" height="22" alt="" aria-hidden="true">
         </a>
         <a href="mailto:alvivinod16@gmail.com" title="Email" aria-label="Email">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -477,11 +508,11 @@
 
       </section>
 
-    <section id="work-anchor">
+    <section id="work-anchor" class="reveal">
       <h2>selected work</h2>
       <p class="section-note">four things I'd actually want to show you, not everything I've pushed to GitHub.</p>
       <div class="work-list">
-        <div class="work-card">
+        <div class="work-card reveal">
           <div class="work-main">
             <h3 class="work-title">Portal</h3>
             <p class="work-desc">One keyboard, multiple machines. A cross-platform app for sharing mouse, keyboard, clipboard and audio across devices on the same network - Linux and Windows.</p>
@@ -489,12 +520,13 @@
               <span class="stack">Python · sockets · PyQt · Linux / Windows</span>
               <span class="work-links">
                 <a href="https://github.com/A56-A5/portal" target="_blank" rel="noopener">source</a>
+                <span class="stack" style="margin-left:4px">· desktop app - build/download from source</span>
               </span>
             </div>
           </div>
           <span class="work-tag">cross-platform · Linux & Windows</span>
         </div>
-        <div class="work-card">
+        <div class="work-card reveal">
           <div class="work-main">
             <h3 class="work-title">L.I.O.N</h3>
             <p class="work-desc">Limit, Isolate, Observe, Namespace. Hardened real-time sandboxing for untrusted commands on Linux - disposable namespaces, domain-filtered network, source shielding, and a live TUI that shows every blocked access.</p>
@@ -507,7 +539,7 @@
           </div>
           <span class="work-tag">🏆 second runner-up - HackAthena '26</span>
         </div>
-        <div class="work-card">
+        <div class="work-card reveal">
           <div class="work-main">
             <h3 class="work-title">The Last Face</h3>
             <p class="work-desc">A psychological horror detective game - interrogate villagers, spot the demon wearing a dead man's face, before it's your turn. Built in 48 hours for Global Game Jam 2026.</p>
@@ -519,9 +551,9 @@
               </span>
             </div>
           </div>
-          <span class="work-tag">🏆 winner, best innovative game - GGJ Kerala 2026</span>
+          <span class="work-tag">🏆 winner, best innovative game - GGJ Kerala '26</span>
         </div>
-        <div class="work-card">
+        <div class="work-card reveal">
           <div class="work-main">
             <h3 class="work-title">ChargeAhead</h3>
             <p class="work-desc">Predictive EV charging hub &amp; smart routing for India. True Charging Availability™ scores, congestion-aware rerouting, real road routing, and a closed-loop operator control center - so you know the charger works before you arrive.</p>
@@ -539,18 +571,18 @@
     </section>
 
     <!-- EXPERIENCE -->
-    <section id="experience-anchor">
+    <section id="experience-anchor" class="reveal">
       <h2>experience</h2>
       <p class="section-note">roles where I actually had to show up and make things run:</p>
       <div class="work-list">
-        <div class="work-card">
+        <div class="work-card reveal">
           <div class="work-main">
             <h3 class="work-title">Tech Lead · Delta Excom</h3>
             <p class="work-desc">Technical lead for Delta - coordinating builds, mentoring, event tech setup, and keeping systems running during events.</p>
           </div>
           <span class="work-tag">2026 - present</span>
         </div>
-        <div class="work-card">
+        <div class="work-card reveal">
           <div class="work-main">
             <h3 class="work-title">Tech Lead · Code Excom</h3>
             <p class="work-desc">Technical ops for Code Excom - tooling, on-ground support, and coordinating event logistics alongside the tech stack.</p>
@@ -560,26 +592,45 @@
       </div>
     </section>
 
-    <section id="do-anchor">
+    <section id="do-anchor" class="reveal">
       <h2>what I like building</h2>
       <p class="section-note">not really a checklist person, but roughly where my head's at:</p>
       <div class="do-grid">
-        <div class="do-item">
+        <div class="do-item reveal">
           <span class="label">software</span>
           <p>web apps, systems, and the occasional backend experiment that probably didn't need to exist.</p>
         </div>
-        <div class="do-item">
+        <div class="do-item reveal">
           <span class="label">AI &amp; agents</span>
           <p>agents, LLM tools, and anything that lets me talk to a program in plain language.</p>
         </div>
-        <div class="do-item">
+        <div class="do-item reveal">
           <span class="label">DSA &amp; games</span>
           <p>competitive programming, game jams, and interactive things you're meant to click and break.</p>
         </div>
       </div>
     </section>
 
-    <section class="about">
+    <section id="skills-anchor" class="reveal">
+      <h2>skills &amp; stack</h2>
+      <p class="section-note">the tools I reach for most often:</p>
+      <div class="skills">
+        <span class="skill">Python</span>
+        <span class="skill">JavaScript / TypeScript</span>
+        <span class="skill">Rust</span>
+        <span class="skill">C / C++</span>
+        <span class="skill">Java</span>
+        <span class="skill">React / Next.js</span>
+        <span class="skill">Three.js / Phaser</span>
+        <span class="skill">MongoDB / MySQL</span>
+        <span class="skill">Linux / Git</span>
+        <span class="skill">Sockets / networking</span>
+        <span class="skill">LLM agents</span>
+        <span class="skill">DSA</span>
+      </div>
+    </section>
+
+    <section class="about reveal">
       <h2>a little about me</h2>
       <p>I like building things that probably shouldn't exist yet, breaking them on purpose, and figuring out how they work underneath. Most of what's above happened during a hackathon, a game jam, or a very unproductive study week.</p>
       <div class="stats-row">
@@ -588,10 +639,11 @@
         <div class="stat"><strong>2</strong> typing contest wins · 131 WPM</div>
         <div class="stat"><strong>multiple</strong> DSA event wins</div>
       </div>
-      <p class="fine">B.Tech CSE (Data Science) · Christ College of Engineering, IJK · CGPA 9.09</p>
+      <p class="fine">B.Tech CSE (Data Science) · Christ College of Engineering, Irinjalakuda (Kerala, India) · CGPA 9.09</p>
+      <p class="open-to-work">open to work · internships, freelance &amp; full-time</p>
     </section>
 
-    <section class="contact">
+    <section class="contact reveal">
       <h2>want to build something weird together?</h2>
       <p class="section-note">say hi, I don't bite.</p>
       <div class="contact-links">
@@ -601,7 +653,7 @@
         <a href="https://www.linkedin.com/in/alvi-av/" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43c-1.14 0-2.06-.93-2.06-2.06 0-1.14.92-2.06 2.06-2.06 1.14 0 2.06.92 2.06 2.06 0 1.13-.92 2.06-2.06 2.06zM7.12 20.45H3.56V9h3.56v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.23 0z"/></svg>
         </a>
-        <a href="https://leetcode.com/u/A56A5/" target="_blank" rel="noopener" title="LeetCode" aria-label="LeetCode"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.483 0a1.37 1.37 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 7.992-.074a5.41 5.41 0 0 0 1.682-3.308 5.495 5.495 0 0 0 .087-1.052 5.484 5.484 0 0 0-.852-3.087 5.404 5.404 0 0 0-.808-1.014L13.988 10.55l.014-.015a.85.85 0 0 0-.075-1.19.85.85 0 0 0-1.2.074l-3.563 3.79a.842.842 0 0 0 .046 1.17.85.85 0 0 0 1.18-.04l1.95-1.842a3.73 3.73 0 0 1 .76 2.314 3.7 3.7 0 0 1-.595 2.045 3.737 3.737 0 0 1-1.615 1.318 3.772 3.772 0 0 1-2.038.25 3.738 3.738 0 0 1-1.85-.94L4.95 14.945a4.1 4.1 0 0 1-.88-1.237 3.96 3.96 0 0 1-.292-1.547 3.99 3.99 0 0 1 .928-2.514l3.92-4.195 4.905-5.12A.85.85 0 0 0 13.483 1.7a.84.84 0 0 0 .61-.25.852.852 0 0 0 0-1.2A.84.84 0 0 0 13.483 0zm3.226 8.25a.75.75 0 0 0 0 1.5h6.5a.75.75 0 0 0 0-1.5h-6.5zm1.5 3a.75.75 0 0 0 0 1.5h5a.75.75 0 0 0 0-1.5h-5zm1.5 3a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-3.5z"/></svg>
+        <a href="https://leetcode.com/u/A56A5/" target="_blank" rel="noopener" title="LeetCode" aria-label="LeetCode"><img class="leetcode-icon" src="https://leetcode.com/favicon.ico" width="22" height="22" alt="" aria-hidden="true">
         </a>
         <a href="mailto:alvivinod16@gmail.com" title="Email" aria-label="Email">
           <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
@@ -612,17 +664,35 @@
       </div>
     </section>
 
+    </main>
     <footer>
-      <span>made by me</span>
+      <span>made by me · Kerala, India</span>
     </footer>
   </div>
 <script>
-/* Handwriting is pure SVG + CSS (stroke-dashoffset). Cascade subtext after phrase finishes (~3.8s). */
+/* Handwriting is pure SVG + CSS (stroke-dashoffset). Cascade subtext after phrase finishes. */
 window.addEventListener('load', function(){
   setTimeout(function(){ document.getElementById('heroSub').classList.add('show'); }, 1700);
   setTimeout(function(){ document.getElementById('heroTag').classList.add('show'); }, 1950);
   setTimeout(function(){ var hl=document.getElementById('heroLinks'); if(hl) hl.classList.add('show'); var hp=document.querySelector('.hero-projects'); if(hp) hp.classList.add('show'); }, 2100);
-  });
+});
+/* Scroll-driven fade-in for sections and cards */
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(function(el){ el.classList.add('visible'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { rootMargin: '0px 0px -40px 0px', threshold: 0.08 });
+  els.forEach(function(el){ io.observe(el); });
+})();
 </script>
 </body>
 </html>
