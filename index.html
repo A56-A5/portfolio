@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alvi - Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Kalam:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --paper:#F8F6F0;
+    --paper-dim:#F2EFE6;
+    --ink:#15140F;
+    --hand:#3E5A46;
+    --accent:#FF5A2B;
+    --line:#E4DFD2;
+    --muted:#6B6A61;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--accent); color:var(--paper); }
+  .wrap{
+    max-width:720px;
+    margin:0 auto;
+    padding:0 28px;
+  }
+  .hero{
+    min-height:92vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:flex-start;
+    padding-top:96px;
+    padding-bottom:64px;
+  }
+  .hw-wrap{
+    width:100%;
+    max-width:420px;
+    position:relative;
+    margin-left:-4px;
+    min-height:88px;
+  }
+  .hw-wrap svg{
+    width:100%;
+    height:auto;
+    display:block;
+    overflow:visible;
+  }
+  .hw-wrap svg{
+    width:100%;
+    height:auto;
+    display:block;
+    overflow:visible;
+  }
+  .hero-sub{
+    font-size:19px;
+    line-height:1.55;
+    color:var(--ink);
+    max-width:460px;
+    margin:22px 0 0;
+    opacity:0;
+    transform:translateY(6px);
+    transition:opacity .6s ease, transform .6s ease;
+  }
+  .hero-sub.show{ opacity:1; transform:translateY(0); }
+  .hero-tag{
+    font-family:'Kalam', cursive;
+    font-size:15px;
+    color:var(--hand);
+    margin-top:16px;
+    opacity:0;
+    transition:opacity .6s ease;
+  }
+  .hero-tag.show{ opacity:0.85; }
+  section{ padding:110px 0; border-top:1px solid var(--line); }
+  section:first-of-type{ border-top:none; }
+  h2{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:34px;
+    margin:0 0 6px;
+  }
+  .section-note{
+    font-family:'Kalam', cursive;
+    color:var(--hand);
+    font-size:15px;
+    margin:0 0 42px;
+  }
+  .do-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:36px;
+  }
+  .do-item{ border-left:2px solid var(--line); padding-left:16px; }
+  .do-item .label{
+    font-family:'Kalam', cursive;
+    font-size:20px;
+    color:var(--hand);
+    display:block;
+    margin-bottom:6px;
+  }
+  .do-item p{ margin:0; font-size:14.5px; color:var(--muted); line-height:1.5; }
+  .work-list{ display:flex; flex-direction:column; gap:0; }
+  .work-card{
+    padding:44px 0;
+    border-top:1px solid var(--line);
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:12px 28px;
+  }
+  .work-main{
+    flex:1 1 280px;
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .work-tag{
+    font-family:'Kalam', cursive;
+    color:var(--accent);
+    font-size:14.5px;
+    flex:0 0 auto;
+    text-align:right;
+    max-width:220px;
+    line-height:1.35;
+    margin-left:auto;
+  }
+  .work-title{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:26px;
+    margin:0;
+  }
+  .work-desc{
+    font-size:15.5px;
+    line-height:1.6;
+    color:var(--muted);
+    max-width:420px;
+    margin:0;
+  }
+  .work-meta{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:14px;
+    margin-top:6px;
+    font-size:13.5px;
+  }
+  .stack{ color:var(--muted); }
+  .work-links{ display:flex; gap:14px; flex-wrap:wrap; }
+  .work-links a{
+    color:var(--ink);
+    text-decoration:none;
+    font-weight:600;
+    border-bottom:1.5px solid var(--accent);
+    padding-bottom:1px;
+  }
+  .work-links a:hover{ color:var(--accent); }
+  .about p{
+    font-size:18px;
+    line-height:1.7;
+    max-width:420px;
+    margin:0 0 14px;
+  }
+  .about .fine{
+    font-family:'Kalam', cursive;
+    color:var(--hand);
+    font-size:14.5px;
+  }
+  .stats-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:18px 28px;
+    margin:22px 0 8px;
+  }
+  .stat{
+    font-size:14.5px;
+    color:var(--muted);
+  }
+  .stat strong{
+    font-family:'Baloo 2', sans-serif;
+    font-weight:700;
+    font-size:22px;
+    color:var(--ink);
+    display:block;
+    line-height:1.1;
+  }
+  .note{
+    border:1.5px solid var(--line);
+    background:var(--paper-dim);
+    border-radius:2px;
+    padding:26px 28px;
+    max-width:400px;
+    transform:rotate(-0.6deg);
+  }
+  .note-title{
+    font-family:'Kalam', cursive;
+    font-size:19px;
+    color:var(--hand);
+    margin:0 0 14px;
+  }
+  .note ul{ list-style:none; margin:0; padding:0; }
+  .note li{
+    font-size:15px;
+    margin-bottom:10px;
+    padding-left:20px;
+    position:relative;
+  }
+  .note li::before{
+    content:"→";
+    position:absolute; left:0;
+    color:var(--accent);
+  }
+  .contact h2{ margin-bottom:14px; }
+  footer{
+    padding:40px 0 60px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-family:'Kalam', cursive;
+    color:var(--hand);
+    font-size:14px;
+  }
+  
+  
+  
+/* ---------- responsive ---------- */
+
+  @media (max-width:720px){
+    .wrap{ padding:0 20px; }
+    .hw-wrap{ max-width:100%; min-height:90px; margin-left:0; }
+  }
+  @media (max-width:640px){
+    section{ padding:48px 0 !important; }
+    .work-card{ padding:28px 0 !important; }
+
+    .work-card{ flex-direction:column; }
+    .work-tag{ text-align:left; max-width:100%; margin-left:0; order:-1; }
+
+    .do-grid{ grid-template-columns:1fr; gap:22px; }
+    h2{ font-size:26px; }
+    .hero{ padding-top:100px; min-height:auto; padding-bottom:48px; }
+    .mark, .stats-row{ gap:14px 20px; }
+    .work-title{ font-size:22px; }
+    .hero-sub{ font-size:16px; max-width:100%; }
+    section{ padding:56px 0; }
+    .hw-wrap{ min-height:72px; }
+    .note{ max-width:100%; transform:none; }
+    .work-meta{ flex-direction:column; align-items:flex-start; gap:8px; }
+  }
+  @media (max-width:400px){
+    .hw-wrap{ min-height:56px; }
+    .wrap{ padding:0 16px; }
+    h2{ font-size:24px; }
+    .work-title{ font-size:20px; }
+    .hero-sub{ font-size:15px; }
+    }
+  @media (max-width:360px){
+    .stats-row{ gap:12px; }
+    .stat strong{ font-size:18px; }
+  }
+
+
+  
+  
+  .hero-links, .contact-links{
+    display:flex; flex-wrap:wrap; gap:16px;
+    margin-top:22px;
+    align-items:center;
+  }
+  .hero-links{
+    opacity:0;
+    transition:opacity .6s ease;
+  }
+  .hero-links.show{ opacity:1; }
+  .hero-links a, .contact-links a{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--ink);
+    text-decoration:none;
+    opacity:0.75;
+    transition:opacity .2s, color .2s, transform .15s;
+    border:none;
+    background:none;
+    padding:0;
+  }
+  .hero-links a:hover, .contact-links a:hover{
+    opacity:1;
+    color:var(--accent);
+    transform:translateY(-2px);
+  }
+  .hero-links a svg, .contact-links a svg{ display:block; }
+
+
+  .hero-projects{
+    display:inline-block;
+    margin-top:28px;
+    font-family:'Kalam', cursive;
+    font-size:16px;
+    color:var(--hand);
+    text-decoration:none;
+    opacity:0;
+    transition:opacity .5s ease, color .2s;
+  }
+  .hero-projects.show{ opacity:0.9; }
+  .hero-projects:hover{ color:var(--accent); opacity:1; }
+
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero" style="border-top:none;">
+      <div class="hw-wrap">
+        <svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 620 125"
+     width="100%"
+     height="auto"
+     role="img"
+     aria-label="Hi, I'm Alvi">
+  <title>Hi, I'm Alvi</title>
+  <defs>
+    <style type="text/css"><![CDATA[
+      .brush {
+        fill: none;
+        stroke: #15140F;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        animation-fill-mode: forwards;
+        animation-timing-function: cubic-bezier(0.3, 0.0, 0.2, 1);
+      }
+      .heavy { stroke-width: 12; }
+      .thick { stroke-width: 10.5; }
+      .mid   { stroke-width: 9; }
+      .mark  { stroke-width: 6.5; }
+      .dab   { stroke-width: 9.5; }
+      @keyframes paint { to { stroke-dashoffset: 0; } }
+      #H_stroke_1   { animation: paint 0.14s 0.00s forwards; }
+      #H_stroke_2   { animation: paint 0.13s 0.12s forwards; }
+      #H_stroke_3   { animation: paint 0.09s 0.23s forwards; }
+      #i_stroke     { animation: paint 0.10s 0.30s forwards; }
+      #i_dot        { animation: paint 0.05s 0.40s forwards; }
+      #comma        { animation: paint 0.05s 0.45s forwards; }
+      #I_stroke     { animation: paint 0.12s 0.52s forwards; }
+      #apostrophe   { animation: paint 0.05s 0.63s forwards; }
+      #m_stroke_1   { animation: paint 0.13s 0.68s forwards; }
+      #m_stroke_2   { animation: paint 0.14s 0.78s forwards; }
+      #A_stroke_1   { animation: paint 0.14s 0.96s forwards; }
+      #A_stroke_2   { animation: paint 0.13s 1.07s forwards; }
+      #A_stroke_3   { animation: paint 0.07s 1.18s forwards; }
+      #l_stroke     { animation: paint 0.12s 1.24s forwards; }
+      #v_stroke     { animation: paint 0.13s 1.34s forwards; }
+      #i2_stroke    { animation: paint 0.09s 1.45s forwards; }
+      #i2_dot       { animation: paint 0.05s 1.54s forwards; }
+    ]]>
+  
+  .hero-links, .contact-links{
+    display:flex; flex-wrap:wrap; gap:16px;
+    margin-top:22px;
+    align-items:center;
+  }
+  .hero-links{
+    opacity:0;
+    transition:opacity .6s ease;
+  }
+  .hero-links.show{ opacity:1; }
+  .hero-links a, .contact-links a{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--ink);
+    text-decoration:none;
+    opacity:0.75;
+    transition:opacity .2s, color .2s, transform .15s;
+    border:none;
+    background:none;
+    padding:0;
+  }
+  .hero-links a:hover, .contact-links a:hover{
+    opacity:1;
+    color:var(--accent);
+    transform:translateY(-2px);
+  }
+  .hero-links a svg, .contact-links a svg{ display:block; }
+
+
+  .hero-projects{
+    display:inline-block;
+    margin-top:28px;
+    font-family:'Kalam', cursive;
+    font-size:16px;
+    color:var(--hand);
+    text-decoration:none;
+    opacity:0;
+    transition:opacity .5s ease, color .2s;
+  }
+  .hero-projects.show{ opacity:0.9; }
+  .hero-projects:hover{ color:var(--accent); opacity:1; }
+
+</style>
+  </defs>
+  <g id="lettering" transform="translate(8,4) skewX(-6) scale(0.88)">
+    <path id="H_stroke_1" class="brush heavy" pathLength="1"
+          d="M32,24 C32,44 32,72 32,96 C32,112 32,120 32,126" />
+    <path id="H_stroke_2" class="brush heavy" pathLength="1"
+          d="M76,22 C76,44 76,72 76,96 C76,112 76,120 76,126" />
+    <path id="H_stroke_3" class="brush mid" pathLength="1"
+          d="M32,74 C44,72 60,72 76,74" />
+    <path id="i_stroke" class="brush thick" pathLength="1"
+          d="M104,62 C104,76 104,96 104,112 C104,120 104,124 104,128" />
+    <path id="i_dot" class="brush dab" pathLength="1"
+          d="M102,34 C104,30 108,30 110,34 C111,37 108,40 105,38.5 C103,37.5 101,36 102,34" />
+    <path id="comma" class="brush mark" pathLength="1"
+          d="M124,118 C126,123 128,128 126,133 C124,136 121,136 120,133" />
+    <!-- gap then I'm -->
+    <path id="I_stroke" class="brush heavy" pathLength="1"
+          d="M180,20 C180,44 180,76 180,100 C180,116 180,122 180,128" />
+    <path id="apostrophe" class="brush mark" pathLength="1"
+          d="M202,20 C205,26 207,34 205,42 C204,45 201,45 200,42" />
+    <path id="m_stroke_1" class="brush thick" pathLength="1"
+          d="M220,126 C220,104 218,80 222,66 C226,52 244,50 256,64 C264,74 266,90 266,104" />
+    <path id="m_stroke_2" class="brush thick" pathLength="1"
+          d="M266,104 C268,86 274,60 292,56 C308,52 320,66 326,80 C330,92 328,108 328,122 C328,126 328,130 330,132" />
+    <!-- bigger gap then Alvi -->
+    <path id="A_stroke_1" class="brush heavy" pathLength="1"
+          d="M450,18 C440,42 426,74 414,102 C408,116 404,122 400,128" />
+    <path id="A_stroke_2" class="brush heavy" pathLength="1"
+          d="M450,18 C462,42 476,74 488,102 C494,116 498,122 502,128" />
+    <path id="A_stroke_3" class="brush mid" pathLength="1"
+          d="M424,82 C438,78 466,80 482,84" />
+    <path id="l_stroke" class="brush heavy" pathLength="1"
+          d="M526,12 C526,36 526,76 526,104 C526,118 526,124 526,132" />
+    <path id="v_stroke" class="brush thick" pathLength="1"
+          d="M550,60 C556,80 564,102 572,122 C574,126 576,128 578,126 C586,102 598,78 610,60 C612,56 614,54 616,56" />
+    <path id="i2_stroke" class="brush thick" pathLength="1"
+          d="M638,62 C638,78 638,100 638,114 C638,122 638,126 638,130" />
+    <path id="i2_dot" class="brush dab" pathLength="1"
+          d="M636,34 C638,30 642,30 644,34 C645,37 642,40 639,38.5 C637,37.5 635,36 636,34" />
+  </g>
+</svg>
+      </div>
+      <p class="hero-sub" id="heroSub">I build software, break things on purpose, and occasionally turn the mess into something useful.</p>
+      <p class="hero-tag" id="heroTag">currently building · learning · probably breaking something</p>
+
+      <div class="hero-links" id="heroLinks" aria-label="Quick links">
+        <a href="https://github.com/A56-A5" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58 0-.29-.01-1.04-.02-2.05-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.33-1.76-1.33-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23.96-.27 1.98-.4 3-.4s2.04.13 3 .4c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.48 5.92.43.37.81 1.1.81 2.22 0 1.61-.01 2.91-.01 3.3 0 .32.22.7.82.58C20.56 21.8 24 17.3 24 12 24 5.37 18.63 0 12 0z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/alvi-av/" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43c-1.14 0-2.06-.93-2.06-2.06 0-1.14.92-2.06 2.06-2.06 1.14 0 2.06.92 2.06 2.06 0 1.13-.92 2.06-2.06 2.06zM7.12 20.45H3.56V9h3.56v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.23 0z"/></svg>
+        </a>
+        <a href="https://leetcode.com/u/A56A5/" target="_blank" rel="noopener" title="LeetCode" aria-label="LeetCode"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.483 0a1.37 1.37 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 7.992-.074a5.41 5.41 0 0 0 1.682-3.308 5.495 5.495 0 0 0 .087-1.052 5.484 5.484 0 0 0-.852-3.087 5.404 5.404 0 0 0-.808-1.014L13.988 10.55l.014-.015a.85.85 0 0 0-.075-1.19.85.85 0 0 0-1.2.074l-3.563 3.79a.842.842 0 0 0 .046 1.17.85.85 0 0 0 1.18-.04l1.95-1.842a3.73 3.73 0 0 1 .76 2.314 3.7 3.7 0 0 1-.595 2.045 3.737 3.737 0 0 1-1.615 1.318 3.772 3.772 0 0 1-2.038.25 3.738 3.738 0 0 1-1.85-.94L4.95 14.945a4.1 4.1 0 0 1-.88-1.237 3.96 3.96 0 0 1-.292-1.547 3.99 3.99 0 0 1 .928-2.514l3.92-4.195 4.905-5.12A.85.85 0 0 0 13.483 1.7a.84.84 0 0 0 .61-.25.852.852 0 0 0 0-1.2A.84.84 0 0 0 13.483 0zm3.226 8.25a.75.75 0 0 0 0 1.5h6.5a.75.75 0 0 0 0-1.5h-6.5zm1.5 3a.75.75 0 0 0 0 1.5h5a.75.75 0 0 0 0-1.5h-5zm1.5 3a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-3.5z"/></svg>
+        </a>
+        <a href="mailto:alvivinod16@gmail.com" title="Email" aria-label="Email">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </a>
+        <a href="resume.html" title="Resume" aria-label="Resume">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </a>
+      </div>
+
+      <a class="hero-projects" href="#work-anchor">check my projects →</a>
+
+
+      </section>
+
+    <section id="work-anchor">
+      <h2>selected work</h2>
+      <p class="section-note">four things I'd actually want to show you, not everything I've pushed to GitHub.</p>
+      <div class="work-list">
+        <div class="work-card">
+          <div class="work-main">
+            <h3 class="work-title">Portal</h3>
+            <p class="work-desc">One keyboard, multiple machines. A cross-platform app for sharing mouse, keyboard, clipboard and audio across devices on the same network - Linux and Windows.</p>
+            <div class="work-meta">
+              <span class="stack">Python · sockets · PyQt · Linux / Windows</span>
+              <span class="work-links">
+                <a href="https://github.com/A56-A5/portal" target="_blank" rel="noopener">source</a>
+              </span>
+            </div>
+          </div>
+          <span class="work-tag">cross-platform · Linux & Windows</span>
+        </div>
+        <div class="work-card">
+          <div class="work-main">
+            <h3 class="work-title">L.I.O.N</h3>
+            <p class="work-desc">Limit, Isolate, Observe, Namespace. Hardened real-time sandboxing for untrusted commands on Linux - disposable namespaces, domain-filtered network, source shielding, and a live TUI that shows every blocked access.</p>
+            <div class="work-meta">
+              <span class="stack">Rust · bubblewrap · AppArmor</span>
+              <span class="work-links">
+                <a href="https://github.com/A56-A5/lion" target="_blank" rel="noopener">source</a>
+              </span>
+            </div>
+          </div>
+          <span class="work-tag">🏆 second runner-up - HackAthena '26</span>
+        </div>
+        <div class="work-card">
+          <div class="work-main">
+            <h3 class="work-title">The Last Face</h3>
+            <p class="work-desc">A psychological horror detective game - interrogate villagers, spot the demon wearing a dead man's face, before it's your turn. Built in 48 hours for Global Game Jam 2026.</p>
+            <div class="work-meta">
+              <span class="stack">React · Phaser · Flask · Gemini AI</span>
+              <span class="work-links">
+                <a href="https://ggj-2026.vercel.app/" target="_blank" rel="noopener">play</a>
+                <a href="https://github.com/A56-A5/GGJ-2026" target="_blank" rel="noopener">source</a>
+              </span>
+            </div>
+          </div>
+          <span class="work-tag">🏆 winner, best innovative game - GGJ Kerala 2026</span>
+        </div>
+        <div class="work-card">
+          <div class="work-main">
+            <h3 class="work-title">ChargeAhead</h3>
+            <p class="work-desc">Predictive EV charging hub &amp; smart routing for India. True Charging Availability™ scores, congestion-aware rerouting, real road routing, and a closed-loop operator control center - so you know the charger works before you arrive.</p>
+            <div class="work-meta">
+              <span class="stack">Next.js · MapLibre · OSRM · Gemini</span>
+              <span class="work-links">
+                <a href="https://chargeahead-gilt.vercel.app" target="_blank" rel="noopener">live</a>
+                <a href="https://github.com/THARUN-KRSHN/chargeahead" target="_blank" rel="noopener">source</a>
+              </span>
+            </div>
+          </div>
+          <span class="work-tag">🏆 runner-up - Zephyrus 8.0</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience-anchor">
+      <h2>experience</h2>
+      <p class="section-note">roles where I actually had to show up and make things run:</p>
+      <div class="work-list">
+        <div class="work-card">
+          <div class="work-main">
+            <h3 class="work-title">Tech Lead · Delta Excom</h3>
+            <p class="work-desc">Technical lead for Delta - coordinating builds, mentoring, event tech setup, and keeping systems running during events.</p>
+          </div>
+          <span class="work-tag">2026 - present</span>
+        </div>
+        <div class="work-card">
+          <div class="work-main">
+            <h3 class="work-title">Tech Lead · Code Excom</h3>
+            <p class="work-desc">Technical ops for Code Excom - tooling, on-ground support, and coordinating event logistics alongside the tech stack.</p>
+          </div>
+          <span class="work-tag">2025 - 26</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="do-anchor">
+      <h2>what I like building</h2>
+      <p class="section-note">not really a checklist person, but roughly where my head's at:</p>
+      <div class="do-grid">
+        <div class="do-item">
+          <span class="label">software</span>
+          <p>web apps, systems, and the occasional backend experiment that probably didn't need to exist.</p>
+        </div>
+        <div class="do-item">
+          <span class="label">AI &amp; agents</span>
+          <p>agents, LLM tools, and anything that lets me talk to a program in plain language.</p>
+        </div>
+        <div class="do-item">
+          <span class="label">DSA &amp; games</span>
+          <p>competitive programming, game jams, and interactive things you're meant to click and break.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="about">
+      <h2>a little about me</h2>
+      <p>I like building things that probably shouldn't exist yet, breaking them on purpose, and figuring out how they work underneath. Most of what's above happened during a hackathon, a game jam, or a very unproductive study week.</p>
+      <div class="stats-row">
+        <div class="stat"><strong>660+</strong> LeetCode solved</div>
+        <div class="stat"><strong>3</strong> hackathon wins / places</div>
+        <div class="stat"><strong>2</strong> typing contest wins · 131 WPM</div>
+        <div class="stat"><strong>multiple</strong> DSA event wins</div>
+      </div>
+      <p class="fine">B.Tech CSE (Data Science) · Christ College of Engineering, IJK · CGPA 9.09</p>
+    </section>
+
+    <section class="contact">
+      <h2>want to build something weird together?</h2>
+      <p class="section-note">say hi, I don't bite.</p>
+      <div class="contact-links">
+        <a href="https://github.com/A56-A5" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58 0-.29-.01-1.04-.02-2.05-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.33-1.76-1.33-1.76-1.09-.74.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .11-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23.96-.27 1.98-.4 3-.4s2.04.13 3 .4c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.62-5.48 5.92.43.37.81 1.1.81 2.22 0 1.61-.01 2.91-.01 3.3 0 .32.22.7.82.58C20.56 21.8 24 17.3 24 12 24 5.37 18.63 0 12 0z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/alvi-av/" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43c-1.14 0-2.06-.93-2.06-2.06 0-1.14.92-2.06 2.06-2.06 1.14 0 2.06.92 2.06 2.06 0 1.13-.92 2.06-2.06 2.06zM7.12 20.45H3.56V9h3.56v11.45zM22.23 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.23 0z"/></svg>
+        </a>
+        <a href="https://leetcode.com/u/A56A5/" target="_blank" rel="noopener" title="LeetCode" aria-label="LeetCode"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.483 0a1.37 1.37 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 7.992-.074a5.41 5.41 0 0 0 1.682-3.308 5.495 5.495 0 0 0 .087-1.052 5.484 5.484 0 0 0-.852-3.087 5.404 5.404 0 0 0-.808-1.014L13.988 10.55l.014-.015a.85.85 0 0 0-.075-1.19.85.85 0 0 0-1.2.074l-3.563 3.79a.842.842 0 0 0 .046 1.17.85.85 0 0 0 1.18-.04l1.95-1.842a3.73 3.73 0 0 1 .76 2.314 3.7 3.7 0 0 1-.595 2.045 3.737 3.737 0 0 1-1.615 1.318 3.772 3.772 0 0 1-2.038.25 3.738 3.738 0 0 1-1.85-.94L4.95 14.945a4.1 4.1 0 0 1-.88-1.237 3.96 3.96 0 0 1-.292-1.547 3.99 3.99 0 0 1 .928-2.514l3.92-4.195 4.905-5.12A.85.85 0 0 0 13.483 1.7a.84.84 0 0 0 .61-.25.852.852 0 0 0 0-1.2A.84.84 0 0 0 13.483 0zm3.226 8.25a.75.75 0 0 0 0 1.5h6.5a.75.75 0 0 0 0-1.5h-6.5zm1.5 3a.75.75 0 0 0 0 1.5h5a.75.75 0 0 0 0-1.5h-5zm1.5 3a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5h-3.5z"/></svg>
+        </a>
+        <a href="mailto:alvivinod16@gmail.com" title="Email" aria-label="Email">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </a>
+        <a href="resume.html" title="Resume" aria-label="Resume">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <footer>
+      <span>made by me</span>
+    </footer>
+  </div>
+<script>
+/* Handwriting is pure SVG + CSS (stroke-dashoffset). Cascade subtext after phrase finishes (~3.8s). */
+window.addEventListener('load', function(){
+  setTimeout(function(){ document.getElementById('heroSub').classList.add('show'); }, 1700);
+  setTimeout(function(){ document.getElementById('heroTag').classList.add('show'); }, 1950);
+  setTimeout(function(){ var hl=document.getElementById('heroLinks'); if(hl) hl.classList.add('show'); var hp=document.querySelector('.hero-projects'); if(hp) hp.classList.add('show'); }, 2100);
+  });
+</script>
+</body>
+</html>

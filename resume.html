@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Alvi A V</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Baloo+2:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15140F;
+    --muted:#5c5b54;
+    --line:#E4DFD2;
+    --accent:#FF5A2B;
+    --paper:#FFFFFF;
+    --bg:#F8F6F0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.45;
+    -webkit-font-smoothing:antialiased;
+  }
+  .toolbar{
+    position:sticky; top:0; z-index:10;
+    background:rgba(248,246,240,0.95);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+    padding:10px 16px;
+    display:flex; gap:10px; justify-content:center; flex-wrap:wrap;
+  }
+  .toolbar a, .toolbar button{
+    font-size:13px; font-weight:600;
+    border:1.5px solid var(--ink);
+    background:transparent; color:var(--ink);
+    border-radius:999px; padding:7px 16px;
+    text-decoration:none; cursor:pointer;
+  }
+  .toolbar .primary{ background:var(--ink); color:#FFFEFA; }
+  .toolbar a:hover, .toolbar button:hover{ background:var(--ink); color:#FFFEFA; }
+
+  /* Screen preview ~ A4 proportions */
+  .page{
+    width:210mm;
+    max-width:100%;
+    min-height:auto;
+    margin:24px auto;
+    background:var(--paper);
+    border:1px solid var(--line);
+    box-shadow:0 8px 28px rgba(0,0,0,0.06);
+    padding:12mm 14mm;
+  }
+
+  header{
+    border-bottom:2px solid var(--ink);
+    padding-bottom:10px; margin-bottom:12px;
+  }
+  h1{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:700; font-size:26px; line-height:1.1;
+  }
+  .role{ font-size:13px; color:var(--muted); margin-top:3px; }
+  .contact-inline{
+    display:flex; flex-wrap:wrap; gap:4px 12px;
+    margin-top:8px; font-size:12px;
+  }
+  .contact-inline a{ color:var(--ink); text-decoration:none; border-bottom:1px solid var(--line); }
+  .contact-inline span{ color:var(--muted); }
+
+  h2{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:700; font-size:12.5px;
+    text-transform:uppercase; letter-spacing:0.06em;
+    color:var(--accent);
+    margin:11px 0 5px;
+    padding-bottom:3px;
+    border-bottom:1px solid var(--line);
+  }
+  .summary{ font-size:12.5px; }
+
+  .item{ margin-bottom:7px; }
+  .item-head{
+    display:flex; flex-wrap:wrap;
+    justify-content:space-between; gap:2px 14px;
+    align-items:baseline;
+  }
+  .item-title{ font-weight:700; font-size:13px; }
+  .item-meta{ font-size:11.5px; color:var(--muted); }
+  .item-sub{ font-size:12px; color:var(--muted); margin:2px 0 3px; }
+  ul{ margin:0 0 0 16px; font-size:12px; }
+  li{ margin-bottom:2px; }
+  .proj-links{ margin-top:2px; font-size:11.5px; }
+  .proj-links a{
+    color:var(--ink); font-weight:600;
+    text-decoration:none; border-bottom:1.5px solid var(--accent);
+    margin-right:10px;
+  }
+  .skills{ display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .skill{
+    font-size:11px; border:1px solid var(--line);
+    border-radius:999px; padding:3px 10px; background:#F2EFE6;
+  }
+
+  @media (max-width:640px){
+    .page{ margin:10px; padding:20px 16px; min-height:auto; width:auto; }
+  }
+
+  @media print{
+    .toolbar{ display:none !important; }
+    body{ background:#fff; }
+    .page{
+      width:auto; min-height:auto; margin:0; border:none;
+      box-shadow:none; padding:0;
+    }
+    a{ color:inherit; text-decoration:none; border:none !important; }
+    @page{ size:A4; margin:10mm 12mm; }
+  }
+</style>
+</head>
+<body>
+  <div class="toolbar">
+    <a href="index.html">Portfolio</a>
+    <button class="primary" type="button" onclick="window.print()">Download PDF</button>
+    <span style="font-size:12px;color:#5c5b54;align-self:center;">In the print dialog: turn off <strong>Headers and footers</strong></span>
+  </div>
+
+  <article class="page">
+    <header>
+      <h1>Alvi A V</h1>
+      <p class="role">B.Tech CSE (Data Science) · Full-stack · Systems · AI</p>
+      <div class="contact-inline">
+        <a href="mailto:alvivinod16@gmail.com">alvivinod16@gmail.com</a>
+        <span>·</span>
+        <a href="tel:+918589837817">+91 85898 37817</a>
+        <span>·</span>
+        <a href="https://github.com/A56-A5" target="_blank" rel="noopener">github.com/A56-A5</a>
+        <span>·</span>
+        <a href="https://www.linkedin.com/in/alvi-av/" target="_blank" rel="noopener">linkedin.com/in/alvi-av</a>
+        <span>·</span>
+        <a href="https://leetcode.com/u/A56A5/" target="_blank" rel="noopener">leetcode.com/u/A56A5</a>
+        <span>·</span>
+        <a href="https://alvi.is-a.dev" target="_blank" rel="noopener">alvi.is-a.dev</a>
+      </div>
+    </header>
+
+    <h2>Profile</h2>
+    <p class="summary">
+      Builder who ships systems, games, and AI tools under tight constraints. Strong competitive programming background (660+ LeetCode), multiple hackathon placements, and experience leading tech for college events.
+    </p>
+
+    <h2>Education</h2>
+    <div class="item">
+      <div class="item-head">
+        <span class="item-title">B.Tech Computer Science &amp; Engineering (Data Science) · CGPA 9.09</span>
+        <span class="item-meta">2024 - Present</span>
+      </div>
+      <p class="item-sub">Christ College of Engineering, Irinjalakuda · APJ Abdul Kalam Technological University</p>
+    </div>
+    <div class="item">
+      <div class="item-head">
+        <span class="item-title">Class XII · CBSE · 85.4% · St. Anne's Public School, Anathadam</span>
+        <span class="item-meta">2022 - 2024</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-head">
+        <span class="item-title">Class X · CBSE · 89.4% · St. Anne's Public School, Anathadam</span>
+        <span class="item-meta">2022</span>
+      </div>
+    </div>
+
+    <h2>Experience</h2>
+    <div class="item">
+      <div class="item-head">
+        <span class="item-title">Tech Lead · Delta Excom</span>
+        <span class="item-meta">2026 - Present</span>
+      </div>
+      <ul>
+        <li>Technical leadership and event coordination - architecture, tooling, mentoring, and on-ground systems support.</li>
+      </ul>
+    </div>
+    <div class="item">
+      <div class="item-head">
+        <span class="item-title">Tech Lead · Code Excom</span>
+        <span class="item-meta">2025 - 26</span>
+      </div>
+      <ul>
+        <li>Owned technical operations and event coordination - setup, tooling, and live troubleshooting.</li>
+      </ul>
+    </div>
+
+    <h2>Projects</h2>
+    <div class="item">
+      <div class="item-head">
+        <span class="item-title">Portal</span>
+        <span class="item-meta">Python · sockets · PyQt</span>
+      </div>
+      <p class="item-sub">Cross-platform app for sharing mouse, keyboard, clipboard, and audio across devices on the same network (Linux &amp; Windows).</p>
+      <p class="proj-links"><a href="https://github.com/A56-A5/portal" target="_blank" rel="noopener">source</a></p>
+    </div>
+    <div class="item">
+      <div class="item-head">
+        <span class="item-title">L.I.O.N</span>
+        <span class="item-meta">Rust · bubblewrap · HackAthena '26 (2nd runner-up)</span>
+      </div>
+      <p class="item-sub">Hardened real-time sandbox for untrusted commands - disposable namespaces, domain-filtered network, source shielding, live TUI.</p>
+      <p class="proj-links"><a href="https://github.com/A56-A5/lion" target="_blank" rel="noopener">source</a></p>
+    </div>
+    <div class="item">
+      <div class="item-head">
+        <span class="item-title">The Last Face</span>
+        <span class="item-meta">React · Phaser · Flask · GGJ Kerala 2026 (Best Innovative Game)</span>
+      </div>
+      <p class="item-sub">Psychological horror detective game built in 48 hours for Global Game Jam 2026.</p>
+      <p class="proj-links">
+        <a href="https://ggj-2026.vercel.app/" target="_blank" rel="noopener">live</a>
+        <a href="https://github.com/A56-A5/GGJ-2026" target="_blank" rel="noopener">source</a>
+      </p>
+    </div>
+    <div class="item">
+      <div class="item-head">
+        <span class="item-title">ChargeAhead</span>
+        <span class="item-meta">Next.js · MapLibre · Zephyrus 8.0 (runner-up)</span>
+      </div>
+      <p class="item-sub">Predictive EV charging hub with True Charging Availability scores and congestion-aware routing for India.</p>
+      <p class="proj-links">
+        <a href="https://chargeahead-gilt.vercel.app" target="_blank" rel="noopener">live</a>
+        <a href="https://github.com/THARUN-KRSHN/chargeahead" target="_blank" rel="noopener">source</a>
+      </p>
+    </div>
+
+    <h2>Achievements</h2>
+    <ul>
+      <li>Runner-up - Zephyrus 8.0 Hackathon (Sep 8, 2026)</li>
+      <li>2nd place - Coding &amp; Debugging (Sep 7, 2026)</li>
+      <li>Second runner-up - HackAthena '26, Jyothi Engineering College, Thrissur</li>
+      <li>Best Innovative Game - Global Game Jam 2026 Kerala ("The Last Face")</li>
+      <li>1st place - Code-Marathon (Jan 28, 2026), St. Mary's College, Thrissur</li>
+      <li>1st place - Debugging Python (Aug 11, 2025) · 1st prize Web Development (Jul 9, 2024), Christ College of Engineering</li>
+      <li>660+ LeetCode solved · 2 typing contest wins · peak 131 WPM</li>
+    </ul>
+
+    <h2>Skills</h2>
+    <div class="skills">
+      <span class="skill">Python</span>
+      <span class="skill">JavaScript / TypeScript</span>
+      <span class="skill">Rust</span>
+      <span class="skill">C / C++</span>
+      <span class="skill">Java</span>
+      <span class="skill">React / Next.js</span>
+      <span class="skill">Three.js / Phaser</span>
+      <span class="skill">MongoDB / MySQL</span>
+      <span class="skill">Linux / Git</span>
+      <span class="skill">Sockets / networking</span>
+      <span class="skill">LLM agents</span>
+      <span class="skill">DSA</span>
+    </div>
+  </article>
+</body>
+</html>

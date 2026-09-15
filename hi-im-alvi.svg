@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 620 125"
+     width="100%"
+     height="auto"
+     role="img"
+     aria-label="Hi, I'm Alvi">
+  <title>Hi, I'm Alvi</title>
+  <defs>
+    <style type="text/css"><![CDATA[
+      .brush {
+        fill: none;
+        stroke: #15140F;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-dasharray: 1;
+        stroke-dashoffset: 1;
+        animation-fill-mode: forwards;
+        animation-timing-function: cubic-bezier(0.3, 0.0, 0.2, 1);
+      }
+      .heavy { stroke-width: 12; }
+      .thick { stroke-width: 10.5; }
+      .mid   { stroke-width: 9; }
+      .mark  { stroke-width: 6.5; }
+      .dab   { stroke-width: 9.5; }
+      @keyframes paint { to { stroke-dashoffset: 0; } }
+      #H_stroke_1   { animation: paint 0.14s 0.00s forwards; }
+      #H_stroke_2   { animation: paint 0.13s 0.12s forwards; }
+      #H_stroke_3   { animation: paint 0.09s 0.23s forwards; }
+      #i_stroke     { animation: paint 0.10s 0.30s forwards; }
+      #i_dot        { animation: paint 0.05s 0.40s forwards; }
+      #comma        { animation: paint 0.05s 0.45s forwards; }
+      #I_stroke     { animation: paint 0.12s 0.52s forwards; }
+      #apostrophe   { animation: paint 0.05s 0.63s forwards; }
+      #m_stroke_1   { animation: paint 0.13s 0.68s forwards; }
+      #m_stroke_2   { animation: paint 0.14s 0.78s forwards; }
+      #A_stroke_1   { animation: paint 0.14s 0.96s forwards; }
+      #A_stroke_2   { animation: paint 0.13s 1.07s forwards; }
+      #A_stroke_3   { animation: paint 0.07s 1.18s forwards; }
+      #l_stroke     { animation: paint 0.12s 1.24s forwards; }
+      #v_stroke     { animation: paint 0.13s 1.34s forwards; }
+      #i2_stroke    { animation: paint 0.09s 1.45s forwards; }
+      #i2_dot       { animation: paint 0.05s 1.54s forwards; }
+    ]]></style>
+  </defs>
+  <g id="lettering" transform="translate(8,4) skewX(-6) scale(0.88)">
+    <path id="H_stroke_1" class="brush heavy" pathLength="1"
+          d="M32,24 C32,44 32,72 32,96 C32,112 32,120 32,126" />
+    <path id="H_stroke_2" class="brush heavy" pathLength="1"
+          d="M76,22 C76,44 76,72 76,96 C76,112 76,120 76,126" />
+    <path id="H_stroke_3" class="brush mid" pathLength="1"
+          d="M32,74 C44,72 60,72 76,74" />
+    <path id="i_stroke" class="brush thick" pathLength="1"
+          d="M104,62 C104,76 104,96 104,112 C104,120 104,124 104,128" />
+    <path id="i_dot" class="brush dab" pathLength="1"
+          d="M102,34 C104,30 108,30 110,34 C111,37 108,40 105,38.5 C103,37.5 101,36 102,34" />
+    <path id="comma" class="brush mark" pathLength="1"
+          d="M124,118 C126,123 128,128 126,133 C124,136 121,136 120,133" />
+    <!-- gap then I'm -->
+    <path id="I_stroke" class="brush heavy" pathLength="1"
+          d="M180,20 C180,44 180,76 180,100 C180,116 180,122 180,128" />
+    <path id="apostrophe" class="brush mark" pathLength="1"
+          d="M202,20 C205,26 207,34 205,42 C204,45 201,45 200,42" />
+    <path id="m_stroke_1" class="brush thick" pathLength="1"
+          d="M220,126 C220,104 218,80 222,66 C226,52 244,50 256,64 C264,74 266,90 266,104" />
+    <path id="m_stroke_2" class="brush thick" pathLength="1"
+          d="M266,104 C268,86 274,60 292,56 C308,52 320,66 326,80 C330,92 328,108 328,122 C328,126 328,130 330,132" />
+    <!-- bigger gap then Alvi -->
+    <path id="A_stroke_1" class="brush heavy" pathLength="1"
+          d="M450,18 C440,42 426,74 414,102 C408,116 404,122 400,128" />
+    <path id="A_stroke_2" class="brush heavy" pathLength="1"
+          d="M450,18 C462,42 476,74 488,102 C494,116 498,122 502,128" />
+    <path id="A_stroke_3" class="brush mid" pathLength="1"
+          d="M424,82 C438,78 466,80 482,84" />
+    <path id="l_stroke" class="brush heavy" pathLength="1"
+          d="M526,12 C526,36 526,76 526,104 C526,118 526,124 526,132" />
+    <path id="v_stroke" class="brush thick" pathLength="1"
+          d="M550,60 C556,80 564,102 572,122 C574,126 576,128 578,126 C586,102 598,78 610,60 C612,56 614,54 616,56" />
+    <path id="i2_stroke" class="brush thick" pathLength="1"
+          d="M638,62 C638,78 638,100 638,114 C638,122 638,126 638,130" />
+    <path id="i2_dot" class="brush dab" pathLength="1"
+          d="M636,34 C638,30 642,30 644,34 C645,37 642,40 639,38.5 C637,37.5 635,36 636,34" />
+  </g>
+</svg>
