@@ -7,7 +7,6 @@
 <meta name="description" content="Alvi A V - B.Tech CSE (Data Science) student in Kerala, India. Full-stack, systems &amp; AI builder. Open to work.">
 <meta name="author" content="Alvi A V">
 <link rel="canonical" href="https://alvi.is-a.dev/">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>A</text></svg>">
 <!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://alvi.is-a.dev/">
@@ -44,6 +43,14 @@
     color:var(--ink);
     font-family:'Inter',sans-serif;
     -webkit-font-smoothing:antialiased;
+  }
+  #pencilCanvas{
+    position:fixed;
+    inset:0;
+    width:100vw;
+    height:100vh;
+    pointer-events:none;
+    z-index:9999;
   }
   ::selection{ background:var(--accent); color:var(--paper); }
   .wrap{
@@ -669,6 +676,7 @@
       <span>made by me · Kerala, India</span>
     </footer>
   </div>
+<canvas id="pencilCanvas" aria-hidden="true"></canvas>
 <script>
 /* Handwriting is pure SVG + CSS (stroke-dashoffset). Cascade subtext after phrase finishes. */
 window.addEventListener('load', function(){
@@ -692,6 +700,119 @@ window.addEventListener('load', function(){
     });
   }, { rootMargin: '0px 0px -40px 0px', threshold: 0.08 });
   els.forEach(function(el){ io.observe(el); });
+})();
+/* Lightweight pencil strokes: each segment expires independently from oldest to newest. */
+(function(){
+  const BRUSH_CONFIG = {
+    lifetime: 4000,
+    minWidth: 1,
+    maxWidth: 3,
+    opacity: 0.5,
+    jitter: 0.5,
+    fadeWindow: 450,
+    minPointDistance: 0.75
+  };
+  const canvas = document.getElementById('pencilCanvas');
+  const context = canvas.getContext('2d');
+  const strokes = [];
+  let activeStroke = null;
+  let drawing = false;
+  let pixelRatio = 1;
+
+  function resizeCanvas(){
+    pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.floor(window.innerWidth * pixelRatio);
+    canvas.height = Math.floor(window.innerHeight * pixelRatio);
+    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+  }
+
+  function randomRange(min, max){
+    return min + Math.random() * (max - min);
+  }
+
+  function addPoint(event){
+    if (!activeStroke) return;
+    const lastPoint = activeStroke.points[activeStroke.points.length - 1];
+    const point = {
+      x: event.clientX,
+      y: event.clientY,
+      time: performance.now(),
+      jitterX: randomRange(-BRUSH_CONFIG.jitter, BRUSH_CONFIG.jitter),
+      jitterY: randomRange(-BRUSH_CONFIG.jitter, BRUSH_CONFIG.jitter),
+      width: randomRange(BRUSH_CONFIG.minWidth, BRUSH_CONFIG.maxWidth),
+      opacity: randomRange(0.72, 1)
+    };
+    if (lastPoint) {
+      const distance = Math.hypot(point.x - lastPoint.x, point.y - lastPoint.y);
+      if (distance < BRUSH_CONFIG.minPointDistance) return;
+    }
+    activeStroke.points.push(point);
+  }
+
+  function drawSegment(start, end, age){
+    const fade = Math.max(0, Math.min(1, (BRUSH_CONFIG.lifetime - age) / BRUSH_CONFIG.fadeWindow));
+    if (fade <= 0) return;
+    context.globalAlpha = BRUSH_CONFIG.opacity * end.opacity * fade;
+    context.lineCap = 'round';
+    context.lineJoin = 'round';
+    context.lineWidth = end.width;
+    context.beginPath();
+    context.moveTo(start.x + start.jitterX, start.y + start.jitterY);
+    context.lineTo(end.x + end.jitterX, end.y + end.jitterY);
+    context.stroke();
+
+    context.globalAlpha *= 0.22;
+    context.lineWidth = Math.max(0.5, end.width * 0.45);
+    context.beginPath();
+    context.moveTo(start.x - start.jitterY, start.y + start.jitterX);
+    context.lineTo(end.x - end.jitterY, end.y + end.jitterX);
+    context.stroke();
+  }
+
+  function render(now){
+    context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    context.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--ink').trim() || '#15140F';
+    for (let strokeIndex = strokes.length - 1; strokeIndex >= 0; strokeIndex -= 1) {
+      const stroke = strokes[strokeIndex];
+      const cutoff = now - BRUSH_CONFIG.lifetime;
+      while (stroke.points.length && stroke.points[0].time < cutoff) stroke.points.shift();
+      if (!stroke.points.length) {
+        strokes.splice(strokeIndex, 1);
+        continue;
+      }
+      if (stroke.points.length === 1) {
+        drawSegment(stroke.points[0], stroke.points[0], now - stroke.points[0].time);
+        continue;
+      }
+      for (let pointIndex = 1; pointIndex < stroke.points.length; pointIndex += 1) {
+        const point = stroke.points[pointIndex];
+        drawSegment(stroke.points[pointIndex - 1], point, now - point.time);
+      }
+    }
+    context.globalAlpha = 1;
+    requestAnimationFrame(render);
+  }
+
+  window.addEventListener('resize', resizeCanvas, { passive:true });
+  document.addEventListener('pointerdown', function(event){
+    if (event.isPrimary === false) return;
+    drawing = true;
+    activeStroke = { points:[] };
+    strokes.push(activeStroke);
+    addPoint(event);
+  }, { passive:true });
+  document.addEventListener('pointermove', function(event){
+    if (drawing) addPoint(event);
+  }, { passive:true });
+  function stopDrawing(){
+    drawing = false;
+    activeStroke = null;
+  }
+  document.addEventListener('pointerup', stopDrawing, { passive:true });
+  document.addEventListener('pointercancel', stopDrawing, { passive:true });
+  document.addEventListener('pointerleave', stopDrawing, { passive:true });
+  resizeCanvas();
+  requestAnimationFrame(render);
 })();
 </script>
 </body>
