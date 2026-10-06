@@ -1,3 +1,9 @@
+export const config = {
+  api: {
+    bodyParser: false
+  }
+};
+
 export default async function handler(req, res) {
   if (req.method !== "POST")
     return res.status(405).json({ error: "Method not allowed" });
@@ -6,8 +12,12 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: "Unauthorized" });
 
   try {
-    const { message } =
-      typeof req.body === "string" ? JSON.parse(req.body) : req.body;
+    let raw = "";
+
+    for await (const chunk of req)
+      raw += chunk;
+
+    const { message } = JSON.parse(raw);
 
     if (!message)
       return res.status(400).json({ error: "Message is required" });
@@ -27,10 +37,14 @@ export default async function handler(req, res) {
     const data = await r.json();
 
     if (!r.ok)
-      return res.status(r.status).json({ error: data.error?.message });
+      return res.status(r.status).json({
+        error: data.error?.message || "Groq error"
+      });
 
-    res.json({ response: data.choices[0].message.content });
+    return res.status(200).json({
+      response: data.choices[0].message.content
+    });
   } catch (e) {
-    res.status(500).json({ error: e.message });
+    return res.status(500).json({ error: e.message });
   }
 }
